@@ -38,7 +38,45 @@ namespace Labb_3_Main
             InitializeComponent();
         }
 
-        public void CreateQuizGrid()
+        public void Grid_2_By_3()
+        {
+            MainGrid.Children.Clear();
+            MainGrid.RowDefinitions.Clear();
+            MainGrid.ColumnDefinitions.Clear();
+
+            MainGrid.ShowGridLines = true;
+
+            for (int i = 0; i < 4; i++)
+            {
+                ColumnDefinition column = new ColumnDefinition();
+                MainGrid.ColumnDefinitions.Add(column);
+
+                if (i == 0 || i == 3)
+                {
+                    column.Width = new GridLength(20);
+                }
+                else
+                {
+                    column.Width = new GridLength(620, GridUnitType.Pixel);
+                }
+            }
+
+            for (int i = 0; i < 5; i++)
+            {
+                RowDefinition row = new RowDefinition();
+                MainGrid.RowDefinitions.Add(row);
+
+                if (i == 0 || i == 4)
+                {
+                    row.Height = new GridLength(20, GridUnitType.Pixel);
+                }
+                else
+                {
+                    row.Height = new GridLength(204, GridUnitType.Pixel);
+                }
+            }
+        }
+        public void Grid_3_By_3()
         {
             MainGrid.Children.Clear();
             MainGrid.RowDefinitions.Clear();
@@ -83,6 +121,10 @@ namespace Labb_3_Main
                     row.Height = new GridLength(0, GridUnitType.Auto);
                 }
             }
+        }
+        public void CreateSettingsQuizGrid()
+        {
+            Grid_3_By_3();
 
             TextBlock title = new TextBlock();
             MainGrid.Children.Add(title);
@@ -221,6 +263,7 @@ namespace Labb_3_Main
                 }
 
                 MessageBox.Show("Your question was subited");
+
                 statment.Text = "";
                 answer1Text.Text = "";
                 answer2Text.Text = "";
@@ -234,6 +277,80 @@ namespace Labb_3_Main
 
         }
 
+        private void Settings_Click(object sender, RoutedEventArgs e)
+        {
+            Grid_2_By_3();
+
+            Button questionSettingsButton = new Button
+            {
+                Content = "Question settings",
+                Width = 300,
+                Height = 150,
+                FontSize = 30
+            };
+            MainGrid.Children.Add(questionSettingsButton);
+            questionSettingsButton.SetValue(Grid.RowProperty, 1);
+            questionSettingsButton.SetValue(Grid.ColumnProperty, 1);
+            questionSettingsButton.Click += QuestionSettingsButton_Click;
+
+            Button quizSettingsButton = new Button
+            {
+                Content = "Quiz settings",
+                Width = 300,
+                Height = 150,
+                FontSize = 30
+            };
+            MainGrid.Children.Add(EditQuizButton);
+            quizSettingsButton.SetValue(Grid.RowProperty, 3);
+            quizSettingsButton.SetValue(Grid.ColumnProperty, 1);
+            quizSettingsButton.Click += EditQuizButton_Click;
+
+
+        }
+
+        private void QuestionSettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            Grid_2_By_3();
+
+            Button createQuiestonButton = new Button
+            {
+                Content = "Question settings",
+                Width = 300,
+                Height = 150,
+                FontSize = 30
+            };
+            MainGrid.Children.Add(createQuiestonButton);
+            createQuiestonButton.SetValue(Grid.RowProperty, 1);
+            createQuiestonButton.SetValue(Grid.ColumnProperty, 1);
+            createQuiestonButton.Click += CreateQuestionButton_Click;
+
+            Button editQuestionButton = new Button
+            {
+                Content = "Quiz settings",
+                Width = 300,
+                Height = 150,
+                FontSize = 30
+            };
+            MainGrid.Children.Add(editQuestionButton);
+            editQuestionButton.SetValue(Grid.RowProperty, 3);
+            editQuestionButton.SetValue(Grid.ColumnProperty, 1);
+            editQuestionButton.Click += EditQuestionButton_Click;
+        }
+
+        private void CreateQuestionButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void EditQuestionButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void EditQuizButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         private void Edit_Quiz_Click(object sender, RoutedEventArgs e)
         {
 
@@ -243,5 +360,40 @@ namespace Labb_3_Main
         {
             CreateQuizGrid();
         }
+
+        /* Grid creation
+        private void Mall()
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                ColumnDefinition column = new ColumnDefinition();
+                MainGrid.ColumnDefinitions.Add(column);
+
+                if (i == 0 || i == 7)
+                {
+                    column.Width = new GridLength(38);
+                }
+                else
+                {
+                    column.Width = new GridLength(200, GridUnitType.Pixel); 
+                }
+            }
+
+            for (int i = 0; i < 10; i++)
+            {
+                RowDefinition row = new RowDefinition();
+                MainGrid.RowDefinitions.Add(row);
+
+                if (i == 0 || i == 9)
+                {
+                    row.Height = new GridLength(20, GridUnitType.Pixel);
+                }
+                else
+                {
+                    row.Height = new GridLength(0, GridUnitType.Auto);
+                }
+            }
+        }
+        */
     }
 }

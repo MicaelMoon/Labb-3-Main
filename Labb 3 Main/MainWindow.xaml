@@ -22,9 +22,8 @@
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Column="1" Grid.Row="1" Text="Welcome to the amazing quiz!" FontSize="80" Margin="65, 0, 0, 0" Grid.ColumnSpan="3"/>
-        <!--object hamnar alltid i mitten av columnen by default-->
         <Button  Name="StartQuizButton" Grid.Column="1" Grid.Row="3" Width="400" Height="200" Content="Start Quiz" FontSize="30" Click ="Start_Quiz_Click"/>
-        <Button Name="EditQuizButton" Grid.Column="2" Grid.Row="3" Width="400" Height="200" Content="Edit Quiz" FontSize="30" Click="Edit_Quiz_Click"/>
+        <Button Name="EditQuizButton" Grid.Column="2" Grid.Row="3" Width="400" Height="200" Content="Settings" FontSize="30" Click="Settings_Click"/>
 
     </Grid>
 </Window>
