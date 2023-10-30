@@ -20,9 +20,19 @@ using Path = System.IO.Path;
 
 namespace Labb_3_Main
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
+    public enum CurrentMenu
+    {
+        Main,
+        Settings,
+        QuizSettings,
+        CreateQuiz,
+        EditQuiz,
+        QuestionSettings,
+        CreateQuestion,
+        EditQuestion,
+
+
+    }
     public partial class MainWindow : Window
     {
         public static List<Quiz> quizList = new List<Quiz>();
@@ -33,103 +43,115 @@ namespace Labb_3_Main
         private TextBox answer2Text;
         private TextBox answer3Text;
 
+        CurrentMenu menu = new CurrentMenu();
+
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        public void Grid_2_By_3()
-        {
-            MainGrid.Children.Clear();
-            MainGrid.RowDefinitions.Clear();
-            MainGrid.ColumnDefinitions.Clear();
 
+        private void Settings_Click(object sender, RoutedEventArgs e)
+        {
+            menu = CurrentMenu.Settings;
             MainGrid.ShowGridLines = true;
 
-            for (int i = 0; i < 4; i++)
+            CreateGrid.Grid_2_By_3(MainGrid);
+
+            Button questionSettingsButton = new Button
             {
-                ColumnDefinition column = new ColumnDefinition();
-                MainGrid.ColumnDefinitions.Add(column);
+                Content = "Question settings",
+                Width = 300,
+                Height = 150,
+                FontSize = 30
+            };
+            MainGrid.Children.Add(questionSettingsButton);
+            questionSettingsButton.SetValue(Grid.RowProperty, 2);
+            questionSettingsButton.SetValue(Grid.ColumnProperty, 2);
+            questionSettingsButton.Click += QuestionSettingsButton_Click;
 
-                if (i == 0 || i == 3)
-                {
-                    column.Width = new GridLength(20);
-                }
-                else
-                {
-                    column.Width = new GridLength(620, GridUnitType.Pixel);
-                }
-            }
-
-            for (int i = 0; i < 5; i++)
+            Button quizSettingsButton = new Button
             {
-                RowDefinition row = new RowDefinition();
-                MainGrid.RowDefinitions.Add(row);
+                Content = "Quiz settings",
+                Width = 300,
+                Height = 150,
+                FontSize = 30
+            };
+            MainGrid.Children.Add(quizSettingsButton);
+            quizSettingsButton.SetValue(Grid.RowProperty, 4);
+            quizSettingsButton.SetValue(Grid.ColumnProperty, 2);
+            quizSettingsButton.Click += EditQuizButton_Click;
 
-                if (i == 0 || i == 4)
-                {
-                    row.Height = new GridLength(20, GridUnitType.Pixel);
-                }
-                else
-                {
-                    row.Height = new GridLength(204, GridUnitType.Pixel);
-                }
-            }
+
+            Button backButton = new Button
+            {
+                Content = "Back",
+                Width = 100,
+                Height = 50,
+                FontSize = 25
+            };
+            MainGrid.Children.Add(backButton);
+            backButton.SetValue(Grid.RowProperty, 1);
+            backButton.SetValue(Grid.ColumnProperty, 1);
+            backButton.Click += BackButton_Click;
         }
-        public void Grid_3_By_3()
+
+        private void Start_Quiz_Click(object sender, RoutedEventArgs e)
         {
-            MainGrid.Children.Clear();
-            MainGrid.RowDefinitions.Clear();
-            MainGrid.ColumnDefinitions.Clear();
 
-            //MainGrid.ShowGridLines = true;
-
-            for (int i = 0; i < 8; i++)
-            {
-                ColumnDefinition column = new ColumnDefinition();
-                MainGrid.ColumnDefinitions.Add(column);
-
-                if (i == 0 || i == 7)
-                {
-                    column.Width = new GridLength(38);
-                }
-                else
-                {
-                    column.Width = new GridLength(200, GridUnitType.Pixel); // When set to (* / Star) they become really small for some reason
-                }
-            }
-
-            for (int i = 0; i < 10; i++)
-            {
-                RowDefinition row = new RowDefinition();
-                MainGrid.RowDefinitions.Add(row);
-
-                if (i == 0 || i == 9)
-                {
-                    row.Height = new GridLength(20, GridUnitType.Pixel);
-                }
-                else if (i == 2 || i == 7)
-                {
-                    row.Height = new GridLength(50, GridUnitType.Pixel);
-                }
-                else if (i == 8)
-                {
-                    row.Height = new GridLength(0, GridUnitType.Auto);
-                }
-                else
-                {
-                    row.Height = new GridLength(0, GridUnitType.Auto);
-                }
-            }
         }
-        public void CreateSettingsQuizGrid()
+
+        private void QuestionSettingsButton_Click(object sender, RoutedEventArgs e)
         {
-            Grid_3_By_3();
+            menu = CurrentMenu.QuestionSettings;
+            CreateGrid.Grid_2_By_3(MainGrid);
+
+            Button createQuiestonButton = new Button
+            {
+                Content = "Create question",
+                Width = 300,
+                Height = 150,
+                FontSize = 30
+            };
+            MainGrid.Children.Add(createQuiestonButton);
+            createQuiestonButton.SetValue(Grid.RowProperty, 2);
+            createQuiestonButton.SetValue(Grid.ColumnProperty, 2);
+            createQuiestonButton.Click += CreateQuestionButton_Click;
+
+            Button editQuestionButton = new Button
+            {
+                Content = "Edit question",
+                Width = 300,
+                Height = 150,
+                FontSize = 30
+            };
+            MainGrid.Children.Add(editQuestionButton);
+            editQuestionButton.SetValue(Grid.RowProperty, 4);
+            editQuestionButton.SetValue(Grid.ColumnProperty, 2);
+            editQuestionButton.Click += EditQuestionButton_Click;
+
+            Button backButton = new Button
+            {
+                Content = "Back",
+                Width = 100,
+                Height = 50,
+                FontSize = 25
+            };
+            MainGrid.Children.Add(backButton);
+            backButton.SetValue(Grid.RowProperty, 1);
+            backButton.SetValue(Grid.ColumnProperty, 1);
+            backButton.Click += BackButton_Click;
+        }
+
+        private void CreateQuestionButton_Click(object sender, RoutedEventArgs e)
+        {
+            menu = CurrentMenu.CreateQuestion;
+            CreateGrid.Grid_3_By_3(MainGrid);
 
             TextBlock title = new TextBlock();
             MainGrid.Children.Add(title);
-            title.SetValue(Grid.RowProperty, 1);
-            title.SetValue(Grid.ColumnProperty, 2);
+            title.SetValue(Grid.RowProperty, 2);
+            title.SetValue(Grid.ColumnProperty, 3);
             title.SetValue(Grid.ColumnSpanProperty, 4);
             title.Text = "Create your question";
             title.FontSize = 80;
@@ -139,8 +161,8 @@ namespace Labb_3_Main
             TextBlock question = new TextBlock();
             MainGrid.Children.Add(question);
             question.Text = "Question : ";
-            question.SetValue(Grid.RowProperty, 3);
-            question.SetValue(Grid.ColumnProperty, 1);
+            question.SetValue(Grid.RowProperty, 4);
+            question.SetValue(Grid.ColumnProperty, 2);
             question.SetValue(Grid.ColumnSpanProperty, 2);
             question.FontSize = 50;
             question.Height = 70;
@@ -148,8 +170,8 @@ namespace Labb_3_Main
             TextBlock answer1 = new TextBlock();
             MainGrid.Children.Add(answer1);
             answer1.Text = "Correct answer : ";
-            answer1.SetValue(Grid.RowProperty, 4);
-            answer1.SetValue(Grid.ColumnProperty, 1);
+            answer1.SetValue(Grid.RowProperty, 5);
+            answer1.SetValue(Grid.ColumnProperty, 2);
             answer1.SetValue(Grid.ColumnSpanProperty, 2);
             answer1.FontSize = 50;
             answer1.Height = 70;
@@ -157,8 +179,8 @@ namespace Labb_3_Main
             TextBlock answer2 = new TextBlock();
             MainGrid.Children.Add(answer2);
             answer2.Text = "Answer 2 : ";
-            answer2.SetValue(Grid.RowProperty, 5);
-            answer2.SetValue(Grid.ColumnProperty, 1);
+            answer2.SetValue(Grid.RowProperty, 6);
+            answer2.SetValue(Grid.ColumnProperty, 2);
             answer2.SetValue(Grid.ColumnSpanProperty, 2);
             answer2.FontSize = 50;
             answer2.Height = 70;
@@ -166,8 +188,8 @@ namespace Labb_3_Main
             TextBlock answer3 = new TextBlock();
             MainGrid.Children.Add(answer3);
             answer3.Text = "Answer 3 : ";
-            answer3.SetValue(Grid.RowProperty, 6);
-            answer3.SetValue(Grid.ColumnProperty, 1);
+            answer3.SetValue(Grid.RowProperty, 7);
+            answer3.SetValue(Grid.ColumnProperty, 2);
             answer3.SetValue(Grid.ColumnSpanProperty, 2);
             answer3.FontSize = 50;
             answer3.Height = 70;
@@ -175,8 +197,8 @@ namespace Labb_3_Main
 
             statment = new TextBox();
             MainGrid.Children.Add(statment);
-            statment.SetValue(Grid.RowProperty, 3);
-            statment.SetValue(Grid.ColumnProperty, 3);
+            statment.SetValue(Grid.RowProperty, 4);
+            statment.SetValue(Grid.ColumnProperty, 4);
             statment.SetValue(Grid.ColumnSpanProperty, 3);
             statment.FontSize = 30;
             statment.Width = 700;
@@ -184,8 +206,8 @@ namespace Labb_3_Main
 
             answer1Text = new TextBox();
             MainGrid.Children.Add(answer1Text);
-            answer1Text.SetValue(Grid.RowProperty, 4);
-            answer1Text.SetValue(Grid.ColumnProperty, 3);
+            answer1Text.SetValue(Grid.RowProperty, 5);
+            answer1Text.SetValue(Grid.ColumnProperty, 4);
             answer1Text.SetValue(Grid.ColumnSpanProperty, 3);
             answer1Text.FontSize = 30;
             answer1Text.Width = 700;
@@ -193,8 +215,8 @@ namespace Labb_3_Main
 
             answer2Text = new TextBox();
             MainGrid.Children.Add(answer2Text);
-            answer2Text.SetValue(Grid.RowProperty, 5);
-            answer2Text.SetValue(Grid.ColumnProperty, 3);
+            answer2Text.SetValue(Grid.RowProperty, 6);
+            answer2Text.SetValue(Grid.ColumnProperty, 4);
             answer2Text.SetValue(Grid.ColumnSpanProperty, 3);
             answer2Text.FontSize = 30;
             answer2Text.Width = 700;
@@ -202,8 +224,8 @@ namespace Labb_3_Main
 
             answer3Text = new TextBox();
             MainGrid.Children.Add(answer3Text);
-            answer3Text.SetValue(Grid.RowProperty, 6);
-            answer3Text.SetValue(Grid.ColumnProperty, 3);
+            answer3Text.SetValue(Grid.RowProperty, 7);
+            answer3Text.SetValue(Grid.ColumnProperty, 4);
             answer3Text.SetValue(Grid.ColumnSpanProperty, 3);
             answer3Text.FontSize = 30;
             answer3Text.Width = 700;
@@ -220,25 +242,58 @@ namespace Labb_3_Main
             submitButton.SetValue(Grid.RowProperty, 8);
             submitButton.SetValue(Grid.ColumnProperty, 5);
             submitButton.SetValue(Grid.RowSpanProperty, 2);
-            submitButton.Click += SubmitButton_Click;
+            submitButton.Click += SaveQuestion_Click;
 
-            Button backButton = new Button
+            Button bbackButton = new Button
             {
                 Content = "Back",
                 Width = 200,
                 Height = 100,
                 FontSize = 30,
             };
+            MainGrid.Children.Add(bbackButton);
+            bbackButton.SetValue(Grid.RowProperty, 8);
+            bbackButton.SetValue(Grid.ColumnProperty, 2);
+            bbackButton.SetValue(Grid.RowSpanProperty, 2);
+
+            Button backButton = new Button
+            {
+                Content = "Back",
+                Width = 100,
+                Height = 50,
+                FontSize = 25
+            };
             MainGrid.Children.Add(backButton);
-            backButton.SetValue(Grid.RowProperty, 8);
-            backButton.SetValue(Grid.ColumnProperty, 2);
-            backButton.SetValue(Grid.RowSpanProperty, 2);
+            backButton.SetValue(Grid.RowProperty, 1);
+            backButton.SetValue(Grid.ColumnProperty, 1);
+            backButton.Click += BackButton_Click;
 
         }
 
-        private void SubmitButton_Click(object sender, RoutedEventArgs e) // saves submited question
+        private void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            if (statment.Text.Length < 1 ||answer1Text.Text.Length < 1 || answer2Text.Text.Length < 1 || answer3Text.Text.Length < 1)
+            switch (menu)
+            {
+                case CurrentMenu.Settings:
+                    break;
+                case CurrentMenu.QuizSettings:
+                    break;
+                case CurrentMenu.QuestionSettings:
+                    break;
+                case CurrentMenu.CreateQuiz:
+                    break;
+                case CurrentMenu.CreateQuestion:
+                    break;
+                case CurrentMenu.EditQuiz:
+                    break;
+                case CurrentMenu.EditQuestion:
+                    break;
+            }
+            QuestionSettingsButton_Click(sender, e);
+        }//Universal Back button
+        private void SaveQuestion_Click(object sender, RoutedEventArgs e) // saves submited question
+        {
+            if (statment.Text.Length < 1 || answer1Text.Text.Length < 1 || answer2Text.Text.Length < 1 || answer3Text.Text.Length < 1)
             {
                 MessageBox.Show("Some fileds were left empty");
             }
@@ -248,9 +303,13 @@ namespace Labb_3_Main
                 Question question = new Question(statment.Text, answers, 0);
 
                 string appdataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appdata");
+                Directory.CreateDirectory(appdataPath);
                 string localPath = Path.Combine(appdataPath, "local");
+                Directory.CreateDirectory(localPath);
                 string quizPath = Path.Combine(localPath, "The_Amazing_Quiz");
+                Directory.CreateDirectory(quizPath);
                 string questionPath = Path.Combine(quizPath, "Questions");
+                Directory.CreateDirectory(questionPath);
 
                 questionList.Add(question);
 
@@ -272,75 +331,6 @@ namespace Labb_3_Main
 
         }
 
-        private void Start_Quiz_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Settings_Click(object sender, RoutedEventArgs e)
-        {
-            Grid_2_By_3();
-
-            Button questionSettingsButton = new Button
-            {
-                Content = "Question settings",
-                Width = 300,
-                Height = 150,
-                FontSize = 30
-            };
-            MainGrid.Children.Add(questionSettingsButton);
-            questionSettingsButton.SetValue(Grid.RowProperty, 1);
-            questionSettingsButton.SetValue(Grid.ColumnProperty, 1);
-            questionSettingsButton.Click += QuestionSettingsButton_Click;
-
-            Button quizSettingsButton = new Button
-            {
-                Content = "Quiz settings",
-                Width = 300,
-                Height = 150,
-                FontSize = 30
-            };
-            MainGrid.Children.Add(EditQuizButton);
-            quizSettingsButton.SetValue(Grid.RowProperty, 3);
-            quizSettingsButton.SetValue(Grid.ColumnProperty, 1);
-            quizSettingsButton.Click += EditQuizButton_Click;
-
-
-        }
-
-        private void QuestionSettingsButton_Click(object sender, RoutedEventArgs e)
-        {
-            Grid_2_By_3();
-
-            Button createQuiestonButton = new Button
-            {
-                Content = "Question settings",
-                Width = 300,
-                Height = 150,
-                FontSize = 30
-            };
-            MainGrid.Children.Add(createQuiestonButton);
-            createQuiestonButton.SetValue(Grid.RowProperty, 1);
-            createQuiestonButton.SetValue(Grid.ColumnProperty, 1);
-            createQuiestonButton.Click += CreateQuestionButton_Click;
-
-            Button editQuestionButton = new Button
-            {
-                Content = "Quiz settings",
-                Width = 300,
-                Height = 150,
-                FontSize = 30
-            };
-            MainGrid.Children.Add(editQuestionButton);
-            editQuestionButton.SetValue(Grid.RowProperty, 3);
-            editQuestionButton.SetValue(Grid.ColumnProperty, 1);
-            editQuestionButton.Click += EditQuestionButton_Click;
-        }
-
-        private void CreateQuestionButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
         private void EditQuestionButton_Click(object sender, RoutedEventArgs e)
         {
 
@@ -356,10 +346,6 @@ namespace Labb_3_Main
 
         }
 
-        private void Create_Quiz_Click(object sender, RoutedEventArgs e)
-        {
-            CreateQuizGrid();
-        }
 
         /* Grid creation
         private void Mall()
