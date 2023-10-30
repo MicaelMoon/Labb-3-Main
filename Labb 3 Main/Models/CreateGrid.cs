@@ -79,18 +79,21 @@ namespace Labb_3_Main.Models
                 {
                     column.Width = new GridLength(100);
                 }
+                else if(i == 2)
+                {
+                    column.Width = new GridLength(80);
+                }
                 else
                 {
                     column.Width = new GridLength(200, GridUnitType.Pixel); // When set to (* / Star) they become really small for some reason
                 }
             }
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 18; i++)
             {
                 RowDefinition row = new RowDefinition();
                 mainGrid.RowDefinitions.Add(row);
-
-                if (i == 0 || i == 9) // allt plus 1
+                if (i == 0 || i == 17)
                 {
                     row.Height = new GridLength(20, GridUnitType.Pixel);
                 }
@@ -98,13 +101,17 @@ namespace Labb_3_Main.Models
                 {
                     row.Height = new GridLength (50, GridUnitType.Pixel);
                 }
-                else if (i == 3 || i == 7)
+                else if (i == 2)
+                {
+                    row.Height = new GridLength(30, GridUnitType.Pixel);
+                }
+                else if (i == 3 || i == 8 || i == 9)
                 {
                     row.Height = new GridLength(50, GridUnitType.Pixel);
                 }
-                else if (i == 8)
+                else if(i == 10)
                 {
-                    row.Height = new GridLength(0, GridUnitType.Auto);
+                    row.Height = new GridLength(50, GridUnitType.Pixel);
                 }
                 else
                 {

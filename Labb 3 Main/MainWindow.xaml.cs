@@ -42,8 +42,14 @@ namespace Labb_3_Main
         private TextBox answer1Text;
         private TextBox answer2Text;
         private TextBox answer3Text;
+        private TextBox statmentTextChange;
+        private TextBox answer1TextChange;
+        private TextBox answer2TextChange;
+        private TextBox answer3TextChange;
 
         CurrentMenu menu = new CurrentMenu();
+
+        public Question selectedQuestionBox;
 
         public MainWindow()
         {
@@ -178,122 +184,188 @@ namespace Labb_3_Main
 
             TextBlock title = new TextBlock();
             MainGrid.Children.Add(title);
-            title.SetValue(Grid.RowProperty, 2);
-            title.SetValue(Grid.ColumnProperty, 3);
+            title.SetValue(Grid.RowProperty, 3);
+            title.SetValue(Grid.ColumnProperty, 1);
             title.SetValue(Grid.ColumnSpanProperty, 4);
             title.Text = "Create your question";
-            title.FontSize = 80;
-            title.Height = 100;
+            title.FontSize = 40;
+            title.Height = 50;
 
+            TextBlock titleChange = new TextBlock();
+            MainGrid.Children.Add(titleChange);
+            titleChange.SetValue(Grid.RowProperty, 9);
+            titleChange.SetValue(Grid.ColumnProperty, 1);
+            titleChange.SetValue(Grid.ColumnSpanProperty, 6);
+            titleChange.Text = "Choose what question you want to change";
+            titleChange.FontSize = 40;
+            titleChange.Height = 50;
 
             TextBlock question = new TextBlock();
             MainGrid.Children.Add(question);
             question.Text = "Question : ";
             question.SetValue(Grid.RowProperty, 4);
-            question.SetValue(Grid.ColumnProperty, 2);
+            question.SetValue(Grid.ColumnProperty, 1);
             question.SetValue(Grid.ColumnSpanProperty, 2);
-            question.FontSize = 50;
-            question.Height = 70;
+            question.FontSize = 25;
+            question.Height = 35;
 
             TextBlock answer1 = new TextBlock();
             MainGrid.Children.Add(answer1);
             answer1.Text = "Correct answer : ";
             answer1.SetValue(Grid.RowProperty, 5);
-            answer1.SetValue(Grid.ColumnProperty, 2);
+            answer1.SetValue(Grid.ColumnProperty, 1);
             answer1.SetValue(Grid.ColumnSpanProperty, 2);
-            answer1.FontSize = 50;
-            answer1.Height = 70;
+            answer1.FontSize = 25;
+            answer1.Height = 35;
 
             TextBlock answer2 = new TextBlock();
             MainGrid.Children.Add(answer2);
             answer2.Text = "Answer 2 : ";
             answer2.SetValue(Grid.RowProperty, 6);
-            answer2.SetValue(Grid.ColumnProperty, 2);
+            answer2.SetValue(Grid.ColumnProperty, 1);
             answer2.SetValue(Grid.ColumnSpanProperty, 2);
-            answer2.FontSize = 50;
-            answer2.Height = 70;
+            answer2.FontSize = 25;
+            answer2.Height = 35;
 
             TextBlock answer3 = new TextBlock();
             MainGrid.Children.Add(answer3);
             answer3.Text = "Answer 3 : ";
             answer3.SetValue(Grid.RowProperty, 7);
-            answer3.SetValue(Grid.ColumnProperty, 2);
+            answer3.SetValue(Grid.ColumnProperty, 1);
             answer3.SetValue(Grid.ColumnSpanProperty, 2);
-            answer3.FontSize = 50;
-            answer3.Height = 70;
+            answer3.FontSize = 25;
+            answer3.Height = 35;
 
+            TextBlock statmentChange = new TextBlock();
+            MainGrid.Children.Add(statmentChange);
+            statmentChange.Text = "Statment : ";
+            statmentChange.SetValue(Grid.RowProperty, 13);
+            statmentChange.SetValue(Grid.ColumnProperty, 1);
+            statmentChange.SetValue(Grid.ColumnSpanProperty, 2);
+            statmentChange.FontSize = 25;
+            statmentChange.Height = 35;
+
+            TextBlock answer1Change = new TextBlock();
+            MainGrid.Children.Add(answer1Change);
+            answer1Change.Text = "Correct answer : ";
+            answer1Change.SetValue(Grid.RowProperty, 14);
+            answer1Change.SetValue(Grid.ColumnProperty, 1);
+            answer1Change.SetValue(Grid.ColumnSpanProperty, 2);
+            answer1Change.FontSize = 25;
+            answer1Change.Height = 35;
+
+            TextBlock answer2Change = new TextBlock();
+            MainGrid.Children.Add(answer2Change);
+            answer2Change.Text = "Answer 2 : ";
+            answer2Change.SetValue(Grid.RowProperty, 15);
+            answer2Change.SetValue(Grid.ColumnProperty, 1);
+            answer2Change.SetValue(Grid.ColumnSpanProperty, 2);
+            answer2Change.FontSize = 25;
+            answer2Change.Height = 35;
+
+            TextBlock answer3Change = new TextBlock();
+            MainGrid.Children.Add(answer3Change);
+            answer3Change.Text = "Answer 3 : ";
+            answer3Change.SetValue(Grid.RowProperty, 16);
+            answer3Change.SetValue(Grid.ColumnProperty, 1);
+            answer3Change.SetValue(Grid.ColumnSpanProperty, 2);
+            answer3Change.FontSize = 25;
+            answer3Change.Height = 35;
 
             statment = new TextBox();
             MainGrid.Children.Add(statment);
             statment.SetValue(Grid.RowProperty, 4);
-            statment.SetValue(Grid.ColumnProperty, 4);
+            statment.SetValue(Grid.ColumnProperty, 3);
             statment.SetValue(Grid.ColumnSpanProperty, 3);
-            statment.FontSize = 30;
+            statment.FontSize = 20;
             statment.Width = 700;
-            statment.Height = 40;
+            statment.Height = 30;
 
             answer1Text = new TextBox();
             MainGrid.Children.Add(answer1Text);
             answer1Text.SetValue(Grid.RowProperty, 5);
-            answer1Text.SetValue(Grid.ColumnProperty, 4);
+            answer1Text.SetValue(Grid.ColumnProperty, 3);
             answer1Text.SetValue(Grid.ColumnSpanProperty, 3);
-            answer1Text.FontSize = 30;
+            answer1Text.FontSize = 20;
             answer1Text.Width = 700;
-            answer1Text.Height = 40;
+            answer1Text.Height = 30;
 
             answer2Text = new TextBox();
             MainGrid.Children.Add(answer2Text);
             answer2Text.SetValue(Grid.RowProperty, 6);
-            answer2Text.SetValue(Grid.ColumnProperty, 4);
+            answer2Text.SetValue(Grid.ColumnProperty, 3);
             answer2Text.SetValue(Grid.ColumnSpanProperty, 3);
-            answer2Text.FontSize = 30;
+            answer2Text.FontSize = 20;
             answer2Text.Width = 700;
-            answer2Text.Height = 40;
+            answer2Text.Height = 30;
 
             answer3Text = new TextBox();
             MainGrid.Children.Add(answer3Text);
             answer3Text.SetValue(Grid.RowProperty, 7);
-            answer3Text.SetValue(Grid.ColumnProperty, 4);
+            answer3Text.SetValue(Grid.ColumnProperty, 3);
             answer3Text.SetValue(Grid.ColumnSpanProperty, 3);
-            answer3Text.FontSize = 30;
+            answer3Text.FontSize = 20;
             answer3Text.Width = 700;
-            answer3Text.Height = 40;
+            answer3Text.Height = 30;
+
+            statmentTextChange = new TextBox();
+            MainGrid.Children.Add(statmentTextChange);
+            statmentTextChange.SetValue(Grid.RowProperty, 13);
+            statmentTextChange.SetValue(Grid.ColumnProperty, 3);
+            statmentTextChange.SetValue(Grid.ColumnSpanProperty, 3);
+            statmentTextChange.FontSize = 20;
+            statmentTextChange.Width = 700;
+            statmentTextChange.Height = 30;
+
+            answer1TextChange = new TextBox();
+            MainGrid.Children.Add(answer1TextChange);
+            answer1TextChange.SetValue(Grid.RowProperty, 14);
+            answer1TextChange.SetValue(Grid.ColumnProperty, 3);
+            answer1TextChange.SetValue(Grid.ColumnSpanProperty, 3);
+            answer1TextChange.FontSize = 20;
+            answer1TextChange.Width = 700;
+            answer1TextChange.Height = 30;
+
+            answer2TextChange = new TextBox();
+            MainGrid.Children.Add(answer2TextChange);
+            answer2TextChange.SetValue(Grid.RowProperty, 15);
+            answer2TextChange.SetValue(Grid.ColumnProperty, 3);
+            answer2TextChange.SetValue(Grid.ColumnSpanProperty, 3);
+            answer2TextChange.FontSize = 20;
+            answer2TextChange.Width = 700;
+            answer2TextChange.Height = 30;
+
+            answer3TextChange = new TextBox();
+            MainGrid.Children.Add(answer3TextChange);
+            answer3TextChange.SetValue(Grid.RowProperty, 16);
+            answer3TextChange.SetValue(Grid.ColumnProperty, 3);
+            answer3TextChange.SetValue(Grid.ColumnSpanProperty, 3);
+            answer3TextChange.FontSize = 20;
+            answer3TextChange.Width = 700;
+            answer3TextChange.Height = 30;
+
+            if (selectedQuestionBox != null)
+            {
+                
+
+                statment.Text = selectedQuestionBox.Statment;
+                answer1Text.Text = selectedQuestionBox.Answers[0];
+                answer2Text.Text = selectedQuestionBox.Answers[1];
+                answer3Text.Text = selectedQuestionBox.Answers[2];
+            }
 
             Button submitButton = new Button
             {
                 Content = "Submit",
-                Width = 200,
-                Height = 100,
-                FontSize = 30
+                Width = 70,
+                Height = 35,
+                FontSize = 20   
             };
             MainGrid.Children.Add(submitButton);
             submitButton.SetValue(Grid.RowProperty, 8);
-            submitButton.SetValue(Grid.ColumnProperty, 5);
+            submitButton.SetValue(Grid.ColumnProperty, 3);
             submitButton.SetValue(Grid.RowSpanProperty, 2);
             submitButton.Click += SaveQuestion_Click;
-
-            Button bbackButton = new Button
-            {
-                Content = "Back",
-                Width = 200,
-                Height = 100,
-                FontSize = 30,
-            };
-            MainGrid.Children.Add(bbackButton);
-            bbackButton.SetValue(Grid.RowProperty, 8);
-            bbackButton.SetValue(Grid.ColumnProperty, 2);
-            bbackButton.SetValue(Grid.RowSpanProperty, 2);
-
-            ComboBox combobox = new ComboBox
-            {
-                Text = "Questions",
-                Width = 400,
-                Height = 20,
-            };
-            MainGrid.Children.Add(combobox);
-            combobox.SetValue(Grid.ColumnProperty, 1);
-            combobox.SetValue(Grid.RowProperty, 2);
-            combobox.SetValue(Grid.ColumnSpanProperty, 3);
 
             Button backButton = new Button
             {
@@ -307,6 +379,46 @@ namespace Labb_3_Main
             backButton.SetValue(Grid.ColumnProperty, 1);
             backButton.Click += BackButton_Click;
 
+
+            ComboBox questionBox = new ComboBox
+            {
+                Width = 400,
+                Height = 20,
+            };
+            MainGrid.Children.Add(questionBox);
+            questionBox.SetValue(Grid.ColumnProperty, 1);
+            questionBox.SetValue(Grid.RowProperty, 10);
+            questionBox.SetValue(Grid.ColumnSpanProperty, 3);
+
+            ComboBoxItem titleItem = new ComboBoxItem
+            {
+                Content = "Questions",
+                IsEnabled = false,
+                FontWeight = FontWeights.Bold,
+            };
+            questionBox.Items.Add(titleItem);
+            questionBox.SelectionChanged += QuestionBox_SelectionChanged;
+
+
+            foreach(Question q in questionList)
+            {
+                questionBox.Items.Add(q.Statment);
+                MessageBox.Show($"Added: {q.Statment}");
+            }
+        }
+
+        private void QuestionBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+            string selectedItem = comboBox.SelectedItem.ToString();
+
+            for (int i = 0; i < questionList.Count; i++)
+            {
+                if (questionList[i].Statment == selectedItem)
+                {
+                    selectedQuestionBox = questionList[i];
+                }
+            }
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
@@ -366,6 +478,7 @@ namespace Labb_3_Main
                     File.WriteAllText(filePath, questionJson);
                 }
 
+                
                 MessageBox.Show("Your question was subited");
 
                 statment.Text = "";
@@ -373,7 +486,6 @@ namespace Labb_3_Main
                 answer2Text.Text = "";
                 answer3Text.Text = "";
             }
-
         }
 
         private void EditQuestionButton_Click(object sender, RoutedEventArgs e)
