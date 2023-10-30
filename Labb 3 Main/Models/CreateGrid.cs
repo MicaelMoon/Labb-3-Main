@@ -31,16 +31,16 @@ namespace Labb_3_Main.Models
                 }
                 else
                 {
-                    column.Width = new GridLength(620, GridUnitType.Pixel);
+                    column.Width = new GridLength(550, GridUnitType.Pixel);
                 }
             }
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 6; i++)
             {
                 RowDefinition row = new RowDefinition();
                 mainGrid.RowDefinitions.Add(row);
 
-                if (i == 0 || i == 4)
+                if (i == 0 || i == 5)
                 {
                     row.Height = new GridLength(20, GridUnitType.Pixel);
                 }
@@ -48,9 +48,13 @@ namespace Labb_3_Main.Models
                 {
                     row.Height = new GridLength(50, GridUnitType.Pixel);
                 }
+                else if (i == 3)
+                {
+                    row.Height = new GridLength(100, GridUnitType.Pixel);
+                }
                 else
                 {
-                    row.Height = new GridLength(204, GridUnitType.Pixel);
+                    row.Height = new GridLength(230, GridUnitType.Pixel);
                 }
             }
 
@@ -126,27 +130,23 @@ namespace Labb_3_Main.Models
                 }
                 else
                 {
-                    column.Width = new GridLength(0, GridUnitType.Star);
+                    column.Width = new GridLength(620, GridUnitType.Pixel);
                 }
             }
 
-            for (int i = 0; i < 5;i++)
+            for (int i = 0; i < 3;i++)
             {
                 RowDefinition row = new RowDefinition();
                 mainGrid.RowDefinitions.Add(row);
-
-                if (i == 0 || i == 4)
+                if(i == 0 || i == 2)
                 {
-                    row.Height = new GridLength(20);
-                }
-                else if (i == 1)
-                {
-                    row.Height = new GridLength(0, GridUnitType.Auto);
+                    row.Height = new GridLength(20, GridUnitType.Pixel);
                 }
                 else
                 {
-                    row.Height = new GridLength(0, GridUnitType.Star);
+                    row.Height = new GridLength(615, GridUnitType.Pixel);
                 }
+                
             }
         }
     }

@@ -53,6 +53,7 @@ namespace Labb_3_Main
         private void MainButton_Click(object sender, RoutedEventArgs e)
         {
             menu = CurrentMenu.Main;
+            MainGrid.ShowGridLines = true;
             CreateGrid.Grid_Main(MainGrid);
 
             Button startQuizButton = new Button
@@ -63,7 +64,7 @@ namespace Labb_3_Main
                 FontSize = 30
             };
             MainGrid.Children.Add(startQuizButton);
-            startQuizButton.SetValue(Grid.RowProperty, 3);
+            startQuizButton.SetValue(Grid.RowProperty, 1);
             startQuizButton.SetValue(Grid.ColumnProperty, 1);
             //startQuizButton.Click += StartQuiz_Click;
 
@@ -75,16 +76,14 @@ namespace Labb_3_Main
                 FontSize = 30
             };
             MainGrid.Children.Add(settingsButton);
-            settingsButton.SetValue(Grid.RowProperty, 3);
-            settingsButton.SetValue(Grid.RowProperty, 2);
+            settingsButton.SetValue(Grid.RowProperty, 1);
+            settingsButton.SetValue(Grid.ColumnProperty, 2);
             settingsButton.Click += SettingsButton_Click;
         }
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
             menu = CurrentMenu.Settings;
-            MainGrid.ShowGridLines = true;
-
             CreateGrid.Grid_2_By_3(MainGrid);
 
             Button questionSettingsButton = new Button
@@ -285,6 +284,17 @@ namespace Labb_3_Main
             bbackButton.SetValue(Grid.ColumnProperty, 2);
             bbackButton.SetValue(Grid.RowSpanProperty, 2);
 
+            ComboBox combobox = new ComboBox
+            {
+                Text = "Questions",
+                Width = 400,
+                Height = 20,
+            };
+            MainGrid.Children.Add(combobox);
+            combobox.SetValue(Grid.ColumnProperty, 1);
+            combobox.SetValue(Grid.RowProperty, 2);
+            combobox.SetValue(Grid.ColumnSpanProperty, 3);
+
             Button backButton = new Button
             {
                 Content = "Back",
@@ -310,10 +320,10 @@ namespace Labb_3_Main
                     SettingsButton_Click(sender, e);
                     break;
                 case CurrentMenu.QuestionSettings:
-                   SettingsButton_Click(sender, e);
+                    SettingsButton_Click(sender, e);
                     break;
                 case CurrentMenu.CreateQuiz:
-                    QuestionSettingsButton_Click(sender, e);
+                    //QuizSettingsButton_Click(sender, e);
                     break;
                 case CurrentMenu.CreateQuestion:
                     QuestionSettingsButton_Click(sender, e);
@@ -322,10 +332,9 @@ namespace Labb_3_Main
                     //QuizSettingsButton_Click(sender, e);
                     break;
                 case CurrentMenu.EditQuestion:
-                    //QuizSettingsButton_Click(sender, e);
+                    QuestionSettingsButton_Click(sender, e);
                     break;
             }
-            QuestionSettingsButton_Click(sender, e);
         }//Universal Back button
         private void SaveQuestion_Click(object sender, RoutedEventArgs e) // saves submited question
         {
