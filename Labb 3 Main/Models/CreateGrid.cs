@@ -108,5 +108,46 @@ namespace Labb_3_Main.Models
                 }
             }
         }
+
+        public static void Grid_Main(Grid mainGrid)
+        {
+            mainGrid.Children.Clear();
+            mainGrid.RowDefinitions.Clear();
+            mainGrid.ColumnDefinitions.Clear();
+
+            for (int i = 0; i < 4; i++)
+            {
+                ColumnDefinition column = new ColumnDefinition();
+                mainGrid.ColumnDefinitions.Add(column);
+
+                if (i == 0 || i == 3)
+                {
+                    column.Width = new GridLength(20);
+                }
+                else
+                {
+                    column.Width = new GridLength(0, GridUnitType.Star);
+                }
+            }
+
+            for (int i = 0; i < 5;i++)
+            {
+                RowDefinition row = new RowDefinition();
+                mainGrid.RowDefinitions.Add(row);
+
+                if (i == 0 || i == 4)
+                {
+                    row.Height = new GridLength(20);
+                }
+                else if (i == 1)
+                {
+                    row.Height = new GridLength(0, GridUnitType.Auto);
+                }
+                else
+                {
+                    row.Height = new GridLength(0, GridUnitType.Star);
+                }
+            }
+        }
     }
 }

@@ -50,8 +50,37 @@ namespace Labb_3_Main
             InitializeComponent();
         }
 
+        private void MainButton_Click(object sender, RoutedEventArgs e)
+        {
+            menu = CurrentMenu.Main;
+            CreateGrid.Grid_Main(MainGrid);
 
-        private void Settings_Click(object sender, RoutedEventArgs e)
+            Button startQuizButton = new Button
+            {
+                Content = "Start Quiz",
+                Width = 400,
+                Height = 200,
+                FontSize = 30
+            };
+            MainGrid.Children.Add(startQuizButton);
+            startQuizButton.SetValue(Grid.RowProperty, 3);
+            startQuizButton.SetValue(Grid.ColumnProperty, 1);
+            //startQuizButton.Click += StartQuiz_Click;
+
+            Button settingsButton = new Button
+            {
+                Content = "Settings",
+                Width = 400,
+                Height = 200,
+                FontSize = 30
+            };
+            MainGrid.Children.Add(settingsButton);
+            settingsButton.SetValue(Grid.RowProperty, 3);
+            settingsButton.SetValue(Grid.RowProperty, 2);
+            settingsButton.Click += SettingsButton_Click;
+        }
+
+        private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
             menu = CurrentMenu.Settings;
             MainGrid.ShowGridLines = true;
@@ -275,18 +304,25 @@ namespace Labb_3_Main
             switch (menu)
             {
                 case CurrentMenu.Settings:
+                    MainButton_Click(sender, e);
                     break;
                 case CurrentMenu.QuizSettings:
+                    SettingsButton_Click(sender, e);
                     break;
                 case CurrentMenu.QuestionSettings:
+                   SettingsButton_Click(sender, e);
                     break;
                 case CurrentMenu.CreateQuiz:
+                    QuestionSettingsButton_Click(sender, e);
                     break;
                 case CurrentMenu.CreateQuestion:
+                    QuestionSettingsButton_Click(sender, e);
                     break;
                 case CurrentMenu.EditQuiz:
+                    //QuizSettingsButton_Click(sender, e);
                     break;
                 case CurrentMenu.EditQuestion:
+                    //QuizSettingsButton_Click(sender, e);
                     break;
             }
             QuestionSettingsButton_Click(sender, e);
