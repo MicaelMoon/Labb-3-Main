@@ -89,11 +89,11 @@ namespace Labb_3_Main.Models
                 }
             }
 
-            for (int i = 0; i < 18; i++)
+            for (int i = 0; i < 19; i++)
             {
                 RowDefinition row = new RowDefinition();
                 mainGrid.RowDefinitions.Add(row);
-                if (i == 0 || i == 17)
+                if (i == 0 || i == 18)
                 {
                     row.Height = new GridLength(20, GridUnitType.Pixel);
                 }
@@ -105,7 +105,7 @@ namespace Labb_3_Main.Models
                 {
                     row.Height = new GridLength(30, GridUnitType.Pixel);
                 }
-                else if (i == 3 || i == 8 || i == 9)
+                else if (i == 3 || i == 8)
                 {
                     row.Height = new GridLength(50, GridUnitType.Pixel);
                 }

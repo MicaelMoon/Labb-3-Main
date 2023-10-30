@@ -35,6 +35,14 @@ namespace Labb_3_Main
     }
     public partial class MainWindow : Window
     {
+        public string appdataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appdata");
+        Directory.CreateDirectory(appdataPath);
+                string localPath = Path.Combine(appdataPath, "local");
+        Directory.CreateDirectory(localPath);
+                string quizPath = Path.Combine(localPath, "The_Amazing_Quiz");
+        Directory.CreateDirectory(quizPath);
+                string questionPath = Path.Combine(quizPath, "Questions");
+        Directory.CreateDirectory(questionPath);
         public static List<Quiz> quizList = new List<Quiz>();
         public static List<Question> questionList = new List<Question>();
 
@@ -47,13 +55,41 @@ namespace Labb_3_Main
         private TextBox answer2TextChange;
         private TextBox answer3TextChange;
 
+        public Question selectedQuestionBox;
+        public int oldQuestionId;
+
         CurrentMenu menu = new CurrentMenu();
 
-        public Question selectedQuestionBox;
 
         public MainWindow()
         {
+            LoadInContent();
             InitializeComponent();
+        }
+
+        private void LoadInContent()    //Can be iproved
+        {
+            string appdataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appdata");
+            Directory.CreateDirectory(appdataPath);
+            string localPath = Path.Combine(appdataPath, "local");
+            Directory.CreateDirectory(localPath);
+            string theQuizPath = Path.Combine(localPath, "The_Amazing_Quiz");
+            Directory.CreateDirectory(theQuizPath);
+            string quizPath = Path.Combine(theQuizPath, "Quizzes");
+            string questionPath = Path.Combine(theQuizPath, "Questions");
+            Directory.CreateDirectory(questionPath);
+
+            string[] questionFIles = Directory.GetFiles(questionPath, "*Question.json");
+
+            Question question = null;
+            Quiz quiz = null;
+
+            foreach (var q in questionFIles)
+            {
+                string json = File.ReadAllText(q);
+                question = JsonConvert.DeserializeObject<Question>(json);
+                questionList.Add(question);
+            }
         }
 
         private void MainButton_Click(object sender, RoutedEventArgs e)
@@ -196,7 +232,7 @@ namespace Labb_3_Main
             titleChange.SetValue(Grid.RowProperty, 9);
             titleChange.SetValue(Grid.ColumnProperty, 1);
             titleChange.SetValue(Grid.ColumnSpanProperty, 6);
-            titleChange.Text = "Choose what question you want to change";
+            titleChange.Text = "Choose question to change";
             titleChange.FontSize = 40;
             titleChange.Height = 50;
 
@@ -276,90 +312,80 @@ namespace Labb_3_Main
             MainGrid.Children.Add(statment);
             statment.SetValue(Grid.RowProperty, 4);
             statment.SetValue(Grid.ColumnProperty, 3);
-            statment.SetValue(Grid.ColumnSpanProperty, 3);
+            statment.SetValue(Grid.ColumnSpanProperty, 2);
             statment.FontSize = 20;
-            statment.Width = 700;
+            statment.Width = 400;
             statment.Height = 30;
 
             answer1Text = new TextBox();
             MainGrid.Children.Add(answer1Text);
             answer1Text.SetValue(Grid.RowProperty, 5);
-            answer1Text.SetValue(Grid.ColumnProperty, 3);
-            answer1Text.SetValue(Grid.ColumnSpanProperty, 3);
+            answer1Text.SetValue(Grid.ColumnProperty, 3 );
+            answer1Text.SetValue(Grid.ColumnSpanProperty, 2);
             answer1Text.FontSize = 20;
-            answer1Text.Width = 700;
+            answer1Text.Width = 400;
             answer1Text.Height = 30;
 
             answer2Text = new TextBox();
             MainGrid.Children.Add(answer2Text);
             answer2Text.SetValue(Grid.RowProperty, 6);
             answer2Text.SetValue(Grid.ColumnProperty, 3);
-            answer2Text.SetValue(Grid.ColumnSpanProperty, 3);
+            answer2Text.SetValue(Grid.ColumnSpanProperty, 2);
             answer2Text.FontSize = 20;
-            answer2Text.Width = 700;
+            answer2Text.Width = 400;
             answer2Text.Height = 30;
 
             answer3Text = new TextBox();
             MainGrid.Children.Add(answer3Text);
             answer3Text.SetValue(Grid.RowProperty, 7);
             answer3Text.SetValue(Grid.ColumnProperty, 3);
-            answer3Text.SetValue(Grid.ColumnSpanProperty, 3);
+            answer3Text.SetValue(Grid.ColumnSpanProperty, 2);
             answer3Text.FontSize = 20;
-            answer3Text.Width = 700;
+            answer3Text.Width = 400;
             answer3Text.Height = 30;
 
             statmentTextChange = new TextBox();
             MainGrid.Children.Add(statmentTextChange);
             statmentTextChange.SetValue(Grid.RowProperty, 13);
             statmentTextChange.SetValue(Grid.ColumnProperty, 3);
-            statmentTextChange.SetValue(Grid.ColumnSpanProperty, 3);
+            statmentTextChange.SetValue(Grid.ColumnSpanProperty, 2);
             statmentTextChange.FontSize = 20;
-            statmentTextChange.Width = 700;
+            statmentTextChange.Width = 400;
             statmentTextChange.Height = 30;
 
             answer1TextChange = new TextBox();
             MainGrid.Children.Add(answer1TextChange);
             answer1TextChange.SetValue(Grid.RowProperty, 14);
             answer1TextChange.SetValue(Grid.ColumnProperty, 3);
-            answer1TextChange.SetValue(Grid.ColumnSpanProperty, 3);
+            answer1TextChange.SetValue(Grid.ColumnSpanProperty, 2);
             answer1TextChange.FontSize = 20;
-            answer1TextChange.Width = 700;
+            answer1TextChange.Width = 400;
             answer1TextChange.Height = 30;
 
             answer2TextChange = new TextBox();
             MainGrid.Children.Add(answer2TextChange);
             answer2TextChange.SetValue(Grid.RowProperty, 15);
             answer2TextChange.SetValue(Grid.ColumnProperty, 3);
-            answer2TextChange.SetValue(Grid.ColumnSpanProperty, 3);
+            answer2TextChange.SetValue(Grid.ColumnSpanProperty, 2);
             answer2TextChange.FontSize = 20;
-            answer2TextChange.Width = 700;
+            answer2TextChange.Width = 400;
             answer2TextChange.Height = 30;
 
             answer3TextChange = new TextBox();
             MainGrid.Children.Add(answer3TextChange);
             answer3TextChange.SetValue(Grid.RowProperty, 16);
             answer3TextChange.SetValue(Grid.ColumnProperty, 3);
-            answer3TextChange.SetValue(Grid.ColumnSpanProperty, 3);
+            answer3TextChange.SetValue(Grid.ColumnSpanProperty, 2);
             answer3TextChange.FontSize = 20;
-            answer3TextChange.Width = 700;
+            answer3TextChange.Width = 400;
             answer3TextChange.Height = 30;
-
-            if (selectedQuestionBox != null)
-            {
-                
-
-                statment.Text = selectedQuestionBox.Statment;
-                answer1Text.Text = selectedQuestionBox.Answers[0];
-                answer2Text.Text = selectedQuestionBox.Answers[1];
-                answer3Text.Text = selectedQuestionBox.Answers[2];
-            }
 
             Button submitButton = new Button
             {
                 Content = "Submit",
                 Width = 70,
                 Height = 35,
-                FontSize = 20   
+                FontSize = 20
             };
             MainGrid.Children.Add(submitButton);
             submitButton.SetValue(Grid.RowProperty, 8);
@@ -367,6 +393,20 @@ namespace Labb_3_Main
             submitButton.SetValue(Grid.RowSpanProperty, 2);
             submitButton.Click += SaveQuestion_Click;
             submitButton.Margin = new Thickness(0, 0, 0, 50);
+
+            Button editQuestionButton = new Button
+            {
+                Content = "Edit",
+                Width = 70,
+                Height = 35,
+                FontSize = 20
+            };
+            MainGrid.Children.Add(editQuestionButton);
+            editQuestionButton.SetValue(Grid.RowProperty, 17);
+            editQuestionButton.SetValue(Grid.ColumnProperty, 3);
+            editQuestionButton.SetValue(Grid.RowSpanProperty, 2);
+            editQuestionButton.Click += EditQuestion_Click;
+
 
             Button backButton = new Button
             {
@@ -391,6 +431,7 @@ namespace Labb_3_Main
             questionBox.SetValue(Grid.RowProperty, 10);
             questionBox.SetValue(Grid.ColumnSpanProperty, 3);
 
+
             ComboBoxItem titleItem = new ComboBoxItem
             {
                 Content = "Questions",
@@ -400,11 +441,9 @@ namespace Labb_3_Main
             questionBox.Items.Add(titleItem);
             questionBox.SelectionChanged += QuestionBox_SelectionChanged;
 
-
-            foreach(Question q in questionList)
+            for (int i = 0; i < questionList.Count; i++)
             {
-                questionBox.Items.Add(q.Statment);
-                MessageBox.Show($"Added: {q.Statment}");
+                questionBox.Items.Add(questionList[i].Statment);
             }
         }
 
@@ -417,9 +456,20 @@ namespace Labb_3_Main
             {
                 if (questionList[i].Statment == selectedItem)
                 {
+                    oldQuestionId = i;
                     selectedQuestionBox = questionList[i];
+                    CreateQuestionButton_Click(sender, e);
                 }
             }
+        }
+
+        private void EditQuestion_Click(object sender, RoutedEventArgs e)
+        {
+            string[] changedAnswers = new string[] { answer1TextChange.Text, answer2TextChange.Text, answer3TextChange.Text};
+            questionList[oldQuestionId] = new Question(statmentTextChange.Text, changedAnswers, 0);
+
+            MessageBox.Show("You've succesfully changed the question");
+            CreateQuestionButton_Click(sender, e);
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
@@ -458,6 +508,7 @@ namespace Labb_3_Main
             else
             {
                 string[] answers = new string[] { answer1Text.Text, answer2Text.Text, answer3Text.Text };
+                int id = questionList.Count + 1;
                 Question question = new Question(statment.Text, answers, 0);
 
                 string appdataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appdata");
@@ -473,19 +524,18 @@ namespace Labb_3_Main
 
                 for (int i = 0; i < questionList.Count; i++)
                 {
-                    string filePath = Path.Combine(questionPath, $"Question_nr_{i + 1}.json");
+                    string filePath = Path.Combine(questionPath, $"Nr_{i + 1}_Question.json");
 
                     string questionJson = JsonConvert.SerializeObject(questionList[i]);
                     File.WriteAllText(filePath, questionJson);
                 }
 
                 
-                MessageBox.Show("Your question was subited");
+                MessageBox.Show("Your question was submited");
 
-                statment.Text = "";
-                answer1Text.Text = "";
-                answer2Text.Text = "";
-                answer3Text.Text = "";
+
+
+                CreateQuestionButton_Click(sender, e);
             }
         }
 
