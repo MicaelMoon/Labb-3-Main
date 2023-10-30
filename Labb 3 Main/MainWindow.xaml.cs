@@ -35,14 +35,6 @@ namespace Labb_3_Main
     }
     public partial class MainWindow : Window
     {
-        public string appdataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appdata");
-        Directory.CreateDirectory(appdataPath);
-                string localPath = Path.Combine(appdataPath, "local");
-        Directory.CreateDirectory(localPath);
-                string quizPath = Path.Combine(localPath, "The_Amazing_Quiz");
-        Directory.CreateDirectory(quizPath);
-                string questionPath = Path.Combine(quizPath, "Questions");
-        Directory.CreateDirectory(questionPath);
         public static List<Quiz> quizList = new List<Quiz>();
         public static List<Question> questionList = new List<Question>();
 
@@ -67,7 +59,7 @@ namespace Labb_3_Main
             InitializeComponent();
         }
 
-        private void LoadInContent()    //Can be iproved
+        private void LoadInContent()
         {
             string appdataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appdata");
             Directory.CreateDirectory(appdataPath);
@@ -95,7 +87,7 @@ namespace Labb_3_Main
         private void MainButton_Click(object sender, RoutedEventArgs e)
         {
             menu = CurrentMenu.Main;
-            MainGrid.ShowGridLines = true;
+            //MainGrid.ShowGridLines = true;
             CreateGrid.Grid_Main(MainGrid);
 
             Button startQuizButton = new Button
@@ -123,99 +115,16 @@ namespace Labb_3_Main
             settingsButton.Click += SettingsButton_Click;
         }
 
-        private void SettingsButton_Click(object sender, RoutedEventArgs e)
-        {
-            menu = CurrentMenu.Settings;
-            CreateGrid.Grid_2_By_3(MainGrid);
 
-            Button questionSettingsButton = new Button
-            {
-                Content = "Question settings",
-                Width = 300,
-                Height = 150,
-                FontSize = 30
-            };
-            MainGrid.Children.Add(questionSettingsButton);
-            questionSettingsButton.SetValue(Grid.RowProperty, 2);
-            questionSettingsButton.SetValue(Grid.ColumnProperty, 2);
-            questionSettingsButton.Click += QuestionSettingsButton_Click;
-
-            Button quizSettingsButton = new Button
-            {
-                Content = "Quiz settings",
-                Width = 300,
-                Height = 150,
-                FontSize = 30
-            };
-            MainGrid.Children.Add(quizSettingsButton);
-            quizSettingsButton.SetValue(Grid.RowProperty, 4);
-            quizSettingsButton.SetValue(Grid.ColumnProperty, 2);
-            quizSettingsButton.Click += EditQuizButton_Click;
-
-
-            Button backButton = new Button
-            {
-                Content = "Back",
-                Width = 100,
-                Height = 50,
-                FontSize = 25
-            };
-            MainGrid.Children.Add(backButton);
-            backButton.SetValue(Grid.RowProperty, 1);
-            backButton.SetValue(Grid.ColumnProperty, 1);
-            backButton.Click += BackButton_Click;
-        }
 
         private void Start_Quiz_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void QuestionSettingsButton_Click(object sender, RoutedEventArgs e)
+        private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
-            menu = CurrentMenu.QuestionSettings;
-            CreateGrid.Grid_2_By_3(MainGrid);
-
-            Button createQuiestonButton = new Button
-            {
-                Content = "Create question",
-                Width = 300,
-                Height = 150,
-                FontSize = 30
-            };
-            MainGrid.Children.Add(createQuiestonButton);
-            createQuiestonButton.SetValue(Grid.RowProperty, 2);
-            createQuiestonButton.SetValue(Grid.ColumnProperty, 2);
-            createQuiestonButton.Click += CreateQuestionButton_Click;
-
-            Button editQuestionButton = new Button
-            {
-                Content = "Edit question",
-                Width = 300,
-                Height = 150,
-                FontSize = 30
-            };
-            MainGrid.Children.Add(editQuestionButton);
-            editQuestionButton.SetValue(Grid.RowProperty, 4);
-            editQuestionButton.SetValue(Grid.ColumnProperty, 2);
-            editQuestionButton.Click += EditQuestionButton_Click;
-
-            Button backButton = new Button
-            {
-                Content = "Back",
-                Width = 100,
-                Height = 50,
-                FontSize = 25
-            };
-            MainGrid.Children.Add(backButton);
-            backButton.SetValue(Grid.RowProperty, 1);
-            backButton.SetValue(Grid.ColumnProperty, 1);
-            backButton.Click += BackButton_Click;
-        }
-
-        private void CreateQuestionButton_Click(object sender, RoutedEventArgs e)
-        {
-            menu = CurrentMenu.CreateQuestion;
+            menu = CurrentMenu.Settings;
             CreateGrid.Grid_3_By_3(MainGrid);
 
             TextBlock title = new TextBlock();
@@ -380,6 +289,14 @@ namespace Labb_3_Main
             answer3TextChange.Width = 400;
             answer3TextChange.Height = 30;
 
+            if (selectedQuestionBox != null)
+            {
+                statmentTextChange.Text = selectedQuestionBox.Statment;
+                answer1TextChange.Text = selectedQuestionBox.Answers[0];
+                answer2TextChange.Text = selectedQuestionBox.Answers[1];
+                answer3TextChange.Text = selectedQuestionBox.Answers[2];
+            }
+
             Button submitButton = new Button
             {
                 Content = "Submit",
@@ -456,20 +373,45 @@ namespace Labb_3_Main
             {
                 if (questionList[i].Statment == selectedItem)
                 {
-                    oldQuestionId = i;
                     selectedQuestionBox = questionList[i];
-                    CreateQuestionButton_Click(sender, e);
+                    SettingsButton_Click(sender, e);
                 }
             }
-        }
+        } //Saves the object Question
 
         private void EditQuestion_Click(object sender, RoutedEventArgs e)
         {
-            string[] changedAnswers = new string[] { answer1TextChange.Text, answer2TextChange.Text, answer3TextChange.Text};
-            questionList[oldQuestionId] = new Question(statmentTextChange.Text, changedAnswers, 0);
+            if (selectedQuestionBox != null)
+            {
+                string[] changedAnswers = new string[] { answer1TextChange.Text, answer2TextChange.Text, answer3TextChange.Text };
+                questionList[oldQuestionId] = new Question(statmentTextChange.Text, changedAnswers, 0);
 
-            MessageBox.Show("You've succesfully changed the question");
-            CreateQuestionButton_Click(sender, e);
+
+                string appdataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appdata");
+                Directory.CreateDirectory(appdataPath);
+                string localPath = Path.Combine(appdataPath, "local");
+                Directory.CreateDirectory(localPath);
+                string quizPath = Path.Combine(localPath, "The_Amazing_Quiz");
+                Directory.CreateDirectory(quizPath);
+                string questionPath = Path.Combine(quizPath, "Questions");
+                Directory.CreateDirectory(questionPath);
+
+                for (int i = 0; i < questionList.Count; i++)
+                {
+                    string filePath = Path.Combine(questionPath, $"Nr_{i + 1}_Question.json");
+
+                    string questionJson = JsonConvert.SerializeObject(questionList[i]);
+                    File.WriteAllText(filePath, questionJson);
+                }
+
+                selectedQuestionBox = null;
+                MessageBox.Show("You've succesfully changed the question");
+                SettingsButton_Click(sender, e);
+            }
+            else
+            {
+                MessageBox.Show("You haven't selected a question");
+            }
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
@@ -489,16 +431,17 @@ namespace Labb_3_Main
                     //QuizSettingsButton_Click(sender, e);
                     break;
                 case CurrentMenu.CreateQuestion:
-                    QuestionSettingsButton_Click(sender, e);
+                    //QuestionSettingsButton_Click(sender, e);
                     break;
                 case CurrentMenu.EditQuiz:
                     //QuizSettingsButton_Click(sender, e);
                     break;
                 case CurrentMenu.EditQuestion:
-                    QuestionSettingsButton_Click(sender, e);
+                    //QuestionSettingsButton_Click(sender, e);
                     break;
             }
         }//Universal Back button
+
         private void SaveQuestion_Click(object sender, RoutedEventArgs e) // saves submited question
         {
             if (statment.Text.Length < 1 || answer1Text.Text.Length < 1 || answer2Text.Text.Length < 1 || answer3Text.Text.Length < 1)
@@ -535,23 +478,8 @@ namespace Labb_3_Main
 
 
 
-                CreateQuestionButton_Click(sender, e);
+                SettingsButton_Click(sender, e);
             }
-        }
-
-        private void EditQuestionButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void EditQuizButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Edit_Quiz_Click(object sender, RoutedEventArgs e)
-        {
-
         }
 
 
