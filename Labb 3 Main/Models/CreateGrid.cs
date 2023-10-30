@@ -111,7 +111,7 @@ namespace Labb_3_Main.Models
                 }
                 else if(i == 10)
                 {
-                    row.Height = new GridLength(50, GridUnitType.Pixel);
+                    row.Height = new GridLength(0, GridUnitType.Auto);
                 }
                 else
                 {

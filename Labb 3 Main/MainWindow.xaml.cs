@@ -366,6 +366,7 @@ namespace Labb_3_Main
             submitButton.SetValue(Grid.ColumnProperty, 3);
             submitButton.SetValue(Grid.RowSpanProperty, 2);
             submitButton.Click += SaveQuestion_Click;
+            submitButton.Margin = new Thickness(0, 0, 0, 50);
 
             Button backButton = new Button
             {
