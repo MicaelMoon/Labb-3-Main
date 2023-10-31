@@ -59,7 +59,7 @@ namespace Labb_3_Main
             InitializeComponent();
         }
 
-        private void LoadInContent()
+        async Task LoadInContent()
         {
             string appdataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appdata");
             Directory.CreateDirectory(appdataPath);
@@ -73,21 +73,25 @@ namespace Labb_3_Main
 
             string[] questionFIles = Directory.GetFiles(questionPath, "*Question.json");
 
-            Question question = null;
-            Quiz quiz = null;
 
-            foreach (var q in questionFIles)
+            //Question question = null;
+            //Quiz quiz = null;
+
+            await Task.Run(async () =>
             {
-                string json = File.ReadAllText(q);
-                question = JsonConvert.DeserializeObject<Question>(json);
-                questionList.Add(question);
-            }
+                foreach (var q in questionFIles)
+                {
+                    string json = await File.ReadAllTextAsync(q);
+                    var question = JsonConvert.DeserializeObject<Question>(json);
+                    questionList.Add(question);
+                }
+            });
         }
 
         private void MainButton_Click(object sender, RoutedEventArgs e)
         {
             menu = CurrentMenu.Main;
-            //MainGrid.ShowGridLines = true;
+            MainGrid.ShowGridLines = true;
             CreateGrid.Grid_Main(MainGrid);
 
             Button startQuizButton = new Button
@@ -100,7 +104,7 @@ namespace Labb_3_Main
             MainGrid.Children.Add(startQuizButton);
             startQuizButton.SetValue(Grid.RowProperty, 1);
             startQuizButton.SetValue(Grid.ColumnProperty, 1);
-            //startQuizButton.Click += StartQuiz_Click;
+            startQuizButton.Click += StartQuiz_Click;
 
             Button settingsButton = new Button
             {
@@ -115,17 +119,15 @@ namespace Labb_3_Main
             settingsButton.Click += SettingsButton_Click;
         }
 
-
-
-        private void Start_Quiz_Click(object sender, RoutedEventArgs e)
+        private void StartQuiz_Click(object sender, RoutedEventArgs e)
         {
-
+            CreateGrid.Grid_Play(MainGrid);
         }
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
             menu = CurrentMenu.Settings;
-            CreateGrid.Grid_3_By_3(MainGrid);
+            CreateGrid.Grid_Settings(MainGrid);
 
             TextBlock title = new TextBlock();
             MainGrid.Children.Add(title);
@@ -346,7 +348,7 @@ namespace Labb_3_Main
             MainGrid.Children.Add(questionBox);
             questionBox.SetValue(Grid.ColumnProperty, 1);
             questionBox.SetValue(Grid.RowProperty, 10);
-            questionBox.SetValue(Grid.ColumnSpanProperty, 3);
+            questionBox.SetValue(Grid.ColumnSpanProperty, 4);
 
 
             ComboBoxItem titleItem = new ComboBoxItem
@@ -414,6 +416,49 @@ namespace Labb_3_Main
             }
         }
 
+        private void SaveQuestion_Click(object sender, RoutedEventArgs e) // saves submited question
+        {
+            SaveQuestion();
+            
+            SettingsButton_Click(sender, e);
+        }
+        async Task SaveQuestion()
+        {
+            if (statment.Text.Length < 1 || answer1Text.Text.Length < 1 || answer2Text.Text.Length < 1 || answer3Text.Text.Length < 1)
+            {
+                MessageBox.Show("Some fileds were left empty");
+            }
+            else
+            {
+                string[] answers = new string[] { answer1Text.Text, answer2Text.Text, answer3Text.Text };
+                int id = questionList.Count + 1;
+                Question question = new Question(statment.Text, answers, 0);
+
+                string appdataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appdata");
+                Directory.CreateDirectory(appdataPath);
+                string localPath = Path.Combine(appdataPath, "local");
+                Directory.CreateDirectory(localPath);
+                string quizPath = Path.Combine(localPath, "The_Amazing_Quiz");
+                Directory.CreateDirectory(quizPath);
+                string questionPath = Path.Combine(quizPath, "Questions");
+                Directory.CreateDirectory(questionPath);
+
+                questionList.Add(question);
+
+                await Task.Run(async () =>
+                {
+                    for (int i = 0; i < questionList.Count; i++)
+                    {
+                        string filePath = Path.Combine(questionPath, $"Nr_{i + 1}_Question.json");
+
+                        string questionJson = JsonConvert.SerializeObject(questionList[i]);
+                        File.WriteAllText(filePath, questionJson);
+                    }
+                });
+                MessageBox.Show("Your question was submited");
+            }
+        }
+
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             switch (menu)
@@ -441,81 +486,5 @@ namespace Labb_3_Main
                     break;
             }
         }//Universal Back button
-
-        private void SaveQuestion_Click(object sender, RoutedEventArgs e) // saves submited question
-        {
-            if (statment.Text.Length < 1 || answer1Text.Text.Length < 1 || answer2Text.Text.Length < 1 || answer3Text.Text.Length < 1)
-            {
-                MessageBox.Show("Some fileds were left empty");
-            }
-            else
-            {
-                string[] answers = new string[] { answer1Text.Text, answer2Text.Text, answer3Text.Text };
-                int id = questionList.Count + 1;
-                Question question = new Question(statment.Text, answers, 0);
-
-                string appdataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appdata");
-                Directory.CreateDirectory(appdataPath);
-                string localPath = Path.Combine(appdataPath, "local");
-                Directory.CreateDirectory(localPath);
-                string quizPath = Path.Combine(localPath, "The_Amazing_Quiz");
-                Directory.CreateDirectory(quizPath);
-                string questionPath = Path.Combine(quizPath, "Questions");
-                Directory.CreateDirectory(questionPath);
-
-                questionList.Add(question);
-
-                for (int i = 0; i < questionList.Count; i++)
-                {
-                    string filePath = Path.Combine(questionPath, $"Nr_{i + 1}_Question.json");
-
-                    string questionJson = JsonConvert.SerializeObject(questionList[i]);
-                    File.WriteAllText(filePath, questionJson);
-                }
-
-                
-                MessageBox.Show("Your question was submited");
-
-
-
-                SettingsButton_Click(sender, e);
-            }
-        }
-
-
-        /* Grid creation
-        private void Mall()
-        {
-            for (int i = 0; i < 8; i++)
-            {
-                ColumnDefinition column = new ColumnDefinition();
-                MainGrid.ColumnDefinitions.Add(column);
-
-                if (i == 0 || i == 7)
-                {
-                    column.Width = new GridLength(38);
-                }
-                else
-                {
-                    column.Width = new GridLength(200, GridUnitType.Pixel); 
-                }
-            }
-
-            for (int i = 0; i < 10; i++)
-            {
-                RowDefinition row = new RowDefinition();
-                MainGrid.RowDefinitions.Add(row);
-
-                if (i == 0 || i == 9)
-                {
-                    row.Height = new GridLength(20, GridUnitType.Pixel);
-                }
-                else
-                {
-                    row.Height = new GridLength(0, GridUnitType.Auto);
-                }
-            }
-        }
-        */
     }
 }

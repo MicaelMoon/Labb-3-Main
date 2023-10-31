@@ -8,13 +8,12 @@ namespace Labb_3_Main.Models
 {
     public class Quiz
     {
-        private IEnumerable<Question> _questions;
         private string _title = string.Empty;
-        public IEnumerable<Question> Questions => _questions;
-        public string Title => _title;
+        private List<Question> _questions;
 
-        public Quiz()
+        public Quiz(string title)
         {
+            _title = title;
             _questions = new List<Question>();
         }
 
