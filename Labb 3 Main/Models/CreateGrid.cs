@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows;
+using System.Data.Common;
 
 namespace Labb_3_Main.Models
 {
@@ -62,10 +63,6 @@ namespace Labb_3_Main.Models
                 {
                     column.Width = new GridLength(20);
                 }
-                else if(i == 1)
-                {
-                    column.Width = new GridLength(0, GridUnitType.Auto);
-                }
                 else
                 {
                     column.Width = new GridLength(620, GridUnitType.Pixel);
@@ -80,9 +77,13 @@ namespace Labb_3_Main.Models
                 {
                     row.Height = new GridLength(20, GridUnitType.Pixel);
                 }
+                else if (i == 1)
+                {
+                    row.Height = new GridLength(304, GridUnitType.Pixel);
+                }
                 else
                 {
-                    row.Height = new GridLength(615, GridUnitType.Pixel);
+                    row.Height = new GridLength(304, GridUnitType.Pixel);
                 }
 
             }
@@ -166,11 +167,11 @@ namespace Labb_3_Main.Models
                 }
             }
 
-            for (int i = 0; i < 19; i++)
+            for (int i = 0; i < 21; i++)
             {
                 RowDefinition row = new RowDefinition();
                 mainGrid.RowDefinitions.Add(row);
-                if (i == 0 || i == 18)
+                if (i == 0 || i == 20)
                 {
                     row.Height = new GridLength(20, GridUnitType.Pixel);
                 }

@@ -122,6 +122,17 @@ namespace Labb_3_Main
         private void StartQuiz_Click(object sender, RoutedEventArgs e)
         {
             CreateGrid.Grid_Play(MainGrid);
+
+
+
+
+            TextBlock questionText = new TextBlock
+            {
+                
+            };
+            questionText.SetValue(Grid.RowProperty, 2);
+            questionText.SetValue(Grid.ColumnProperty, 1);
+
         }
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
