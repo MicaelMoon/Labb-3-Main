@@ -8,12 +8,12 @@ namespace Labb_3_Main.Models
 {
     public class Quiz
     {
-        private string _title = string.Empty;
-        private List<Question> _questions;
+        public string Title { get; set; }
+        public List<Question> _questions;
 
         public Quiz(string title)
         {
-            _title = title;
+            Title = title;
             _questions = new List<Question>();
         }
 

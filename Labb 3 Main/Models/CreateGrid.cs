@@ -167,11 +167,11 @@ namespace Labb_3_Main.Models
                 }
             }
 
-            for (int i = 0; i < 21; i++)
+            for (int i = 0; i < 19; i++)
             {
                 RowDefinition row = new RowDefinition();
                 mainGrid.RowDefinitions.Add(row);
-                if (i == 0 || i == 20)
+                if (i == 0 || i == 18)
                 {
                     row.Height = new GridLength(20, GridUnitType.Pixel);
                 }

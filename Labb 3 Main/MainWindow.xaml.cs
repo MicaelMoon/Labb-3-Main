@@ -47,6 +47,8 @@ namespace Labb_3_Main
         private TextBox answer2TextChange;
         private TextBox answer3TextChange;
 
+        private TextBox quizTitleText;
+
         public Question selectedQuestionBox;
         public int oldQuestionId;
 
@@ -142,25 +144,62 @@ namespace Labb_3_Main
 
             TextBlock title = new TextBlock();
             MainGrid.Children.Add(title);
+            title.Text = "Create your question";
             title.SetValue(Grid.RowProperty, 3);
             title.SetValue(Grid.ColumnProperty, 1);
             title.SetValue(Grid.ColumnSpanProperty, 4);
-            title.Text = "Create your question";
             title.FontSize = 40;
             title.Height = 50;
+
+            TextBlock chooseQuiz = new TextBlock();
+            MainGrid.Children.Add(chooseQuiz);
+            chooseQuiz.Text = "Create your quiz";
+            chooseQuiz.SetValue(Grid.RowProperty, 3);
+            chooseQuiz.SetValue(Grid.ColumnProperty, 5);
+            chooseQuiz.SetValue(Grid.ColumnSpanProperty, 4);
+            chooseQuiz.FontSize = 40;
+            chooseQuiz.Height = 50;
+
+            TextBlock quizTitle = new TextBlock();
+            MainGrid.Children.Add(quizTitle);
+            quizTitle.Text = "Title : ";
+            quizTitle.SetValue(Grid.RowProperty, 4);
+            quizTitle.SetValue(Grid.ColumnProperty, 5);
+            quizTitle.SetValue(Grid.ColumnSpanProperty, 2);
+            quizTitle.FontSize = 25;
+            quizTitle.Height = 35;
+
+            TextBlock comboboxTitle1 = new TextBlock();
+            MainGrid.Children.Add(comboboxTitle1);
+            comboboxTitle1.Text = "Select question";
+            comboboxTitle1.SetValue(Grid.RowProperty, 1);
+            comboboxTitle1.SetValue(Grid.ColumnProperty, 3);
+            comboboxTitle1.SetValue(Grid.ColumnSpanProperty, 4);
+            comboboxTitle1.Margin = new Thickness(0,0,0,20);
+            comboboxTitle1.FontSize = 25;
+            comboboxTitle1.Height = 25;
+
+            quizTitleText = new TextBox();
+            MainGrid.Children.Add(quizTitleText);
+            quizTitleText.SetValue(Grid.RowProperty, 4);
+            quizTitleText.SetValue(Grid.ColumnProperty, 5);
+            quizTitleText.SetValue(Grid.ColumnSpanProperty, 6);
+            quizTitleText.FontSize = 20;
+            quizTitleText.Width = 400;
+            quizTitleText.Height = 30;
 
             TextBlock titleChange = new TextBlock();
             MainGrid.Children.Add(titleChange);
             titleChange.SetValue(Grid.RowProperty, 9);
             titleChange.SetValue(Grid.ColumnProperty, 1);
             titleChange.SetValue(Grid.ColumnSpanProperty, 6);
-            titleChange.Text = "Choose question to change";
+            titleChange.Text = "Change selected question";
             titleChange.FontSize = 40;
             titleChange.Height = 50;
 
             TextBlock question = new TextBlock();
             MainGrid.Children.Add(question);
-            question.Text = "Question : ";
+            question.Text = "Statment : ";
             question.SetValue(Grid.RowProperty, 4);
             question.SetValue(Grid.ColumnProperty, 1);
             question.SetValue(Grid.ColumnSpanProperty, 2);
@@ -324,6 +363,20 @@ namespace Labb_3_Main
             submitButton.Click += SaveQuestion_Click;
             submitButton.Margin = new Thickness(0, 0, 0, 50);
 
+            Button addButton = new Button
+            {
+                Content = "Create",
+                Width = 70,
+                Height = 35,
+                FontSize = 20
+            };
+            MainGrid.Children.Add(addButton);
+            addButton.SetValue(Grid.RowProperty, 8);
+            addButton.SetValue(Grid.ColumnProperty, 5);
+            addButton.SetValue(Grid.RowSpanProperty, 2);
+            addButton.Click += SaveQuiz_Click;
+            addButton.Margin = new Thickness(0, 0, 0, 50);
+
             Button editQuestionButton = new Button
             {
                 Content = "Edit",
@@ -358,7 +411,7 @@ namespace Labb_3_Main
             };
             MainGrid.Children.Add(questionBox);
             questionBox.SetValue(Grid.ColumnProperty, 1);
-            questionBox.SetValue(Grid.RowProperty, 10);
+            questionBox.SetValue(Grid.RowProperty, 2);
             questionBox.SetValue(Grid.ColumnSpanProperty, 4);
 
 
@@ -371,10 +424,51 @@ namespace Labb_3_Main
             questionBox.Items.Add(titleItem);
             questionBox.SelectionChanged += QuestionBox_SelectionChanged;
 
-            for (int i = 0; i < questionList.Count; i++)
+
+            ComboBox quizBox = new ComboBox
             {
-                questionBox.Items.Add(questionList[i].Statment);
+                Width = 400,
+                Height = 20,
+            };
+            MainGrid.Children.Add(quizBox);
+            quizBox.SetValue(Grid.ColumnProperty, 5);
+            quizBox.SetValue(Grid.RowProperty, 2);
+            quizBox.SetValue(Grid.ColumnSpanProperty, 4);
+
+            ComboBoxItem titleItem2 = new ComboBoxItem
+            {
+                Content = "Quizzes",
+                IsEnabled = false,
+                FontWeight = FontWeights.Bold,
+            };
+            quizBox.Items.Add(titleItem2);
+            quizBox.SelectionChanged += QuestionBox_SelectionChanged;
+
+
+            try
+            {
+                for (int i = 0; i < questionList.Count; i++)
+                {
+                    questionBox.Items.Add(questionList[i].Statment);
+                }
             }
+            catch
+            {
+
+            }
+
+            try
+            {
+                for (int i = 0; i < questionList.Count; i++)
+                {
+                    quizBox.Items.Add(quizList[i].Title);
+                }
+            }
+            catch
+            {
+
+            }
+
         }
 
         private void QuestionBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -433,6 +527,67 @@ namespace Labb_3_Main
             
             SettingsButton_Click(sender, e);
         }
+
+        private void SaveQuiz_Click(object sender, RoutedEventArgs e)
+        {
+            SaveQuiz(sender, e);
+
+            SettingsButton_Click(sender, e);
+        }
+
+        async Task SaveQuiz(object sender, RoutedEventArgs e)
+        {
+            if (quizTitleText.Text.Length < 1)
+            {
+                MessageBox.Show("You need to enter a title for your quiz");
+            }
+            else
+            {
+                Quiz quiz = new Quiz(quizTitleText.Text);
+
+
+
+                for (int i = 0; i < questionList.Count; i++)
+                {
+                    if (questionList[i] == selectedQuestionBox)
+                    {
+                        quiz._questions.Add(questionList[i]);
+                    }
+                }
+                if(quiz._questions.Count < 1)
+                {
+                    MessageBox.Show("You need to add at least one question to your quiz");
+                    SettingsButton_Click(sender, e);
+                }
+                else
+                {
+
+                    quizList.Add(quiz);
+
+                    string appdataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appdata");
+                    Directory.CreateDirectory(appdataPath);
+                    string localPath = Path.Combine(appdataPath, "local");
+                    Directory.CreateDirectory(localPath);
+                    string quizPath = Path.Combine(localPath, "The_Amazing_Quiz");
+                    Directory.CreateDirectory(quizPath);
+                    string quizzesPath = Path.Combine(quizPath, "Quizzes");
+                    Directory.CreateDirectory(quizzesPath);
+
+                    await Task.Run(async () =>
+                    {
+                        for (int i = 0; i < quizList.Count; i++)
+                        {
+                            string filePath = Path.Combine(quizzesPath, $"Nr_{i + 1}_Quiz.json");
+                            string quizJson = JsonConvert.SerializeObject(quizList[i]);
+
+                            File.WriteAllText(filePath, quizJson);
+                        }
+                    });
+
+                    MessageBox.Show("Quiz was succesfully added");
+                }
+            }
+        }
         async Task SaveQuestion()
         {
             if (statment.Text.Length < 1 || answer1Text.Text.Length < 1 || answer2Text.Text.Length < 1 || answer3Text.Text.Length < 1)
@@ -444,6 +599,7 @@ namespace Labb_3_Main
                 string[] answers = new string[] { answer1Text.Text, answer2Text.Text, answer3Text.Text };
                 int id = questionList.Count + 1;
                 Question question = new Question(statment.Text, answers, 0);
+                questionList.Add(question);
 
                 string appdataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appdata");
                 Directory.CreateDirectory(appdataPath);
@@ -454,7 +610,6 @@ namespace Labb_3_Main
                 string questionPath = Path.Combine(quizPath, "Questions");
                 Directory.CreateDirectory(questionPath);
 
-                questionList.Add(question);
 
                 await Task.Run(async () =>
                 {
