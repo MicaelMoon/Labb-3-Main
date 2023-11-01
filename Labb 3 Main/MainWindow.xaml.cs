@@ -50,7 +50,9 @@ namespace Labb_3_Main
         private TextBox quizTitleText;
 
         public Question selectedQuestionBox;
+        public Quiz selectedQuizBox;
         public int oldQuestionId;
+        public int selectedQuizBoxID;
 
         CurrentMenu menu = new CurrentMenu();
 
@@ -70,10 +72,12 @@ namespace Labb_3_Main
             string theQuizPath = Path.Combine(localPath, "The_Amazing_Quiz");
             Directory.CreateDirectory(theQuizPath);
             string quizPath = Path.Combine(theQuizPath, "Quizzes");
+            Directory.CreateDirectory(quizPath);
             string questionPath = Path.Combine(theQuizPath, "Questions");
             Directory.CreateDirectory(questionPath);
 
-            string[] questionFIles = Directory.GetFiles(questionPath, "*Question.json");
+            string[] questionFiles = Directory.GetFiles(questionPath, "*Question.json");
+            string[] quizzesFiles = Directory.GetFiles(quizPath, "*Quiz.json"); 
 
 
             //Question question = null;
@@ -81,11 +85,17 @@ namespace Labb_3_Main
 
             await Task.Run(async () =>
             {
-                foreach (var q in questionFIles)
+                foreach (var q in questionFiles)
                 {
                     string json = await File.ReadAllTextAsync(q);
                     var question = JsonConvert.DeserializeObject<Question>(json);
                     questionList.Add(question);
+                }
+                foreach(var q in quizzesFiles)
+                {
+                    string json = await File.ReadAllTextAsync(q);
+                    var quiz = JsonConvert.DeserializeObject<Quiz>(json);
+                    quizList.Add(quiz);
                 }
             });
         }
@@ -348,6 +358,10 @@ namespace Labb_3_Main
                 answer2TextChange.Text = selectedQuestionBox.Answers[1];
                 answer3TextChange.Text = selectedQuestionBox.Answers[2];
             }
+            if (selectedQuizBox != null)
+            {
+                quizTitleText.Text = selectedQuizBox.Title;
+            }
 
             Button submitButton = new Button
             {
@@ -389,6 +403,19 @@ namespace Labb_3_Main
             editQuestionButton.SetValue(Grid.ColumnProperty, 3);
             editQuestionButton.SetValue(Grid.RowSpanProperty, 2);
             editQuestionButton.Click += EditQuestion_Click;
+
+            Button AddQuestionToQuizButton = new Button
+            {
+                Content = "Add",
+                Width = 70,
+                Height = 35,
+                FontSize = 20
+            };
+            MainGrid.Children.Add(AddQuestionToQuizButton);
+            AddQuestionToQuizButton.SetValue(Grid.RowProperty, 17);
+            AddQuestionToQuizButton.SetValue(Grid.ColumnProperty, 4);
+            AddQuestionToQuizButton.SetValue(Grid.RowSpanProperty, 2);
+            AddQuestionToQuizButton.Click += AddQuestionToQuiz_Click;
 
 
             Button backButton = new Button
@@ -442,7 +469,7 @@ namespace Labb_3_Main
                 FontWeight = FontWeights.Bold,
             };
             quizBox.Items.Add(titleItem2);
-            quizBox.SelectionChanged += QuestionBox_SelectionChanged;
+            quizBox.SelectionChanged += QuizBox_SelectionChanged;
 
 
             try
@@ -481,17 +508,41 @@ namespace Labb_3_Main
                 if (questionList[i].Statment == selectedItem)
                 {
                     selectedQuestionBox = questionList[i];
+                    oldQuestionId = i;
                     SettingsButton_Click(sender, e);
                 }
             }
         } //Saves the object Question
+
+        private void QuizBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+            string selectedItem = comboBox.SelectedItem.ToString();
+
+            for (int i = 0; i < quizList.Count; i++)
+            {
+                if (quizList[i].Title == selectedItem)
+                {
+                    selectedQuizBox = quizList[i];
+                    selectedQuizBoxID = i;
+                    SettingsButton_Click(sender, e);
+                }
+            }
+        }
+
+        private void AddQuestionToQuiz_Click(object sender, RoutedEventArgs e)
+        {
+            quizList[selectedQuizBoxID].AddQuestion(selectedQuestionBox);
+            Quiz.UpdateFiles();
+        }
 
         private void EditQuestion_Click(object sender, RoutedEventArgs e)
         {
             if (selectedQuestionBox != null)
             {
                 string[] changedAnswers = new string[] { answer1TextChange.Text, answer2TextChange.Text, answer3TextChange.Text };
-                questionList[oldQuestionId] = new Question(statmentTextChange.Text, changedAnswers, 0);
+                Question question = new Question(statmentTextChange.Text, changedAnswers, 0);
+                questionList[oldQuestionId] = question;
 
 
                 string appdataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appdata");

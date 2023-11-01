@@ -8,7 +8,6 @@ namespace Labb_3_Main.Models
 {
     public class Question
     {
-        public bool isQuestion = true;
         public string Statment { get; set; }
         public string[] Answers { get; set; }
         public int CorrectAnswer { get; set; }
