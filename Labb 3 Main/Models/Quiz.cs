@@ -33,7 +33,7 @@ namespace Labb_3_Main.Models
 
         public void RemoveQuestion(int index)
         {
-            throw new NotSupportedException("Question at requested index need to be removed here");
+            _questions.RemoveAt(index);
         }
 
         public static async Task UpdateFiles()

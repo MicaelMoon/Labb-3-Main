@@ -417,6 +417,20 @@ namespace Labb_3_Main
             AddQuestionToQuizButton.SetValue(Grid.RowSpanProperty, 2);
             AddQuestionToQuizButton.Click += AddQuestionToQuiz_Click;
 
+            Button DeleteQuestionFromQuizButton = new Button
+            {
+                Content = "Remove question",
+                Width = 150,
+                Height = 35,
+                FontSize = 17
+            };
+            MainGrid.Children.Add(DeleteQuestionFromQuizButton);
+            DeleteQuestionFromQuizButton.SetValue(Grid.RowProperty, 8);
+            DeleteQuestionFromQuizButton.SetValue(Grid.ColumnProperty, 6);
+            DeleteQuestionFromQuizButton.SetValue(Grid.RowSpanProperty, 2);
+            DeleteQuestionFromQuizButton.Click += DeleteQuestionFromQuiz_Click;
+            submitButton.Margin = new Thickness(0, 0, 0, 50);
+
 
             Button backButton = new Button
             {
@@ -496,6 +510,17 @@ namespace Labb_3_Main
 
             }
 
+        }
+        private void DeleteQuestionFromQuiz_Click(object sender, RoutedEventArgs e)
+        {
+
+            for (int i = 0; i < quizList[selectedQuizBoxID]._questions.Count; i++)
+            {
+                if (quizList[selectedQuizBoxID]._questions[i] == selectedQuestionBox)
+                {
+                    quizList[selectedQuizBoxID].RemoveQuestion(i);
+                }
+            }  
         }
 
         private void QuestionBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
