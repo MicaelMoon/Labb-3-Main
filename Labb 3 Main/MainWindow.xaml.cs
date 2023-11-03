@@ -49,6 +49,10 @@ namespace Labb_3_Main
 
         private TextBox quizTitleText;
 
+        public Quiz quizPlay;
+        public ComboBoxItem chooseQuiz = new ComboBoxItem();
+        public ComboBoxItem titleItem2 = new ComboBoxItem();
+
         public Question selectedQuestionBox;
         public Quiz selectedQuizBox;
         public int oldQuestionId;
@@ -106,6 +110,9 @@ namespace Labb_3_Main
             MainGrid.ShowGridLines = true;
             CreateGrid.Grid_Main(MainGrid);
 
+
+
+
             Button startQuizButton = new Button
             {
                 Content = "Start Quiz",
@@ -129,23 +136,93 @@ namespace Labb_3_Main
             settingsButton.SetValue(Grid.RowProperty, 1);
             settingsButton.SetValue(Grid.ColumnProperty, 2);
             settingsButton.Click += SettingsButton_Click;
+
+            TextBlock chooseQuizText = new TextBlock
+            {
+                Text = "Choose your quiz",
+                Width = 200,
+                Height = 200,
+                FontSize = 20,
+                Margin = new Thickness(25, 0, 0, 220)
+            };
+            MainGrid.Children.Add(chooseQuizText);
+            chooseQuizText.SetValue(Grid.RowProperty, 1);
+            chooseQuizText.SetValue(Grid.ColumnProperty, 1);
+
+
+            ComboBox chooseQuiz = new ComboBox();
+            MainGrid.Children.Add(chooseQuiz);
+            chooseQuiz.Width = 400;
+            chooseQuiz.Height = 20;
+            chooseQuiz.Margin = new Thickness(0, 0, 0, 350);
+            chooseQuiz.SetValue(Grid.ColumnProperty, 1);
+            chooseQuiz.SetValue(Grid.RowProperty, 1);
+
+
+            ComboBoxItem titleItem = new ComboBoxItem
+            {
+                Content = "Quizzes",
+                IsEnabled = false,
+                FontWeight = FontWeights.Bold,
+            };
+            chooseQuiz.Items.Add(titleItem);
+            chooseQuiz.SelectionChanged += chosenQuiz_SelectionChanged;
+            chooseQuiz.SelectionChanged += (sender, e) =>
+            {
+
+            };
+
+            try
+            {
+                for (int i = 0;i < quizList.Count; i++)
+                {
+                    chooseQuiz.Items.Add(quizList[i].Title);
+                }
+            }
+            catch
+            {
+
+            }
+        }
+        private void chosenQuiz_SelectionChanged(Object sender, RoutedEventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+            string data = comboBox.SelectedItem.ToString();
+
+            foreach (var q in quizList)
+            {
+                if (q.Title == data)
+                {
+                    quizPlay = q;
+                }
+            }
         }
 
         private void StartQuiz_Click(object sender, RoutedEventArgs e)
         {
             CreateGrid.Grid_Play(MainGrid);
+            Quiz copyOfChosenQuiz = quizList[0];
+            Random r = new Random();
+
+            /*
+            copyOfChosenQuiz._questions
+
+            List<Question> questions = new List<Question>();
+            */
+
 
 
 
 
             TextBlock questionText = new TextBlock
             {
-                
+                Text = ""
             };
             questionText.SetValue(Grid.RowProperty, 2);
             questionText.SetValue(Grid.ColumnProperty, 1);
 
         }
+
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
@@ -429,7 +506,7 @@ namespace Labb_3_Main
             DeleteQuestionFromQuizButton.SetValue(Grid.ColumnProperty, 6);
             DeleteQuestionFromQuizButton.SetValue(Grid.RowSpanProperty, 2);
             DeleteQuestionFromQuizButton.Click += DeleteQuestionFromQuiz_Click;
-            submitButton.Margin = new Thickness(0, 0, 0, 50);
+            DeleteQuestionFromQuizButton.Margin = new Thickness(0, 0, 0, 50);
 
 
             Button backButton = new Button
@@ -511,9 +588,9 @@ namespace Labb_3_Main
             }
 
         }
+
         private void DeleteQuestionFromQuiz_Click(object sender, RoutedEventArgs e)
         {
-
             for (int i = 0; i < quizList[selectedQuizBoxID]._questions.Count; i++)
             {
                 if (quizList[selectedQuizBoxID]._questions[i] == selectedQuestionBox)
