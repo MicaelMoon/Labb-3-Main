@@ -201,14 +201,30 @@ namespace Labb_3_Main
         private void StartQuiz_Click(object sender, RoutedEventArgs e)
         {
             CreateGrid.Grid_Play(MainGrid);
-            Quiz copyOfChosenQuiz = quizList[0];
-            Random r = new Random();
 
-            /*
-            copyOfChosenQuiz._questions
+            
+            List<int> alreadyTaken = new List<int>();
+            List<Question> randomizedQuestions = new List<Question>();
+            List<Question> yourAnswers = new List<Question>();
+            int currentQuestion = 0;
 
-            List<Question> questions = new List<Question>();
-            */
+            Random random = new Random();
+
+
+
+            for (int i = 0;i < quizPlay._questions.Count; i++)
+            {
+                int r = 0;
+                do
+                {
+                    r = random.Next(0, quizPlay._questions.Count);
+                }
+                while (randomizedQuestions.Contains(quizPlay._questions[r]));
+
+
+                randomizedQuestions.Add(quizPlay._questions[r]);
+            }
+
 
 
 
@@ -216,10 +232,17 @@ namespace Labb_3_Main
 
             TextBlock questionText = new TextBlock
             {
-                Text = ""
+                Text = randomizedQuestions[currentQuestion].Statment,
+                Width=1300,
+                Height=200,
+                FontSize = 50,
+                Margin = new Thickness(0,0,0,0)
             };
-            questionText.SetValue(Grid.RowProperty, 2);
+            MainGrid.Children.Add(questionText);
+            questionText.SetValue(Grid.RowProperty, 1);
             questionText.SetValue(Grid.ColumnProperty, 1);
+            questionText.SetValue(Grid.ColumnSpanProperty, 3);
+            questionText.SetValue(Grid.RowSpanProperty, 3);
 
         }
 
