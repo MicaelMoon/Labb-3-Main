@@ -62,7 +62,7 @@ namespace Labb_3_Main.Models
                 if (i == 0 || i == 3)
                 {
                     column.Width = new GridLength(20);
-                }
+                } 
                 else
                 {
                     column.Width = new GridLength(620, GridUnitType.Pixel);
@@ -73,7 +73,7 @@ namespace Labb_3_Main.Models
             {
                 RowDefinition row = new RowDefinition();
                 mainGrid.RowDefinitions.Add(row);
-                if (i == 0 || i == 2)
+                if (i == 0 || i == 3)
                 {
                     row.Height = new GridLength(20, GridUnitType.Pixel);
                 }

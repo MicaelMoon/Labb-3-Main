@@ -212,7 +212,7 @@ namespace Labb_3_Main
 
 
 
-            for (int i = 0;i < quizPlay._questions.Count; i++)
+            for (int i = 0;i < quizPlay._questions.Count; i++) // Create the random order of questions
             {
                 int r = 0;
                 do
@@ -225,9 +225,8 @@ namespace Labb_3_Main
                 randomizedQuestions.Add(quizPlay._questions[r]);
             }
 
-
-
-
+            alreadyTaken.Clear();
+            int rAnswer = random.Next(0, 3);
 
 
             TextBlock questionText = new TextBlock
@@ -236,13 +235,74 @@ namespace Labb_3_Main
                 Width=1300,
                 Height=200,
                 FontSize = 50,
-                Margin = new Thickness(0,0,0,0)
+                Margin = new Thickness(0,0,0,300)
             };
             MainGrid.Children.Add(questionText);
             questionText.SetValue(Grid.RowProperty, 1);
             questionText.SetValue(Grid.ColumnProperty, 1);
             questionText.SetValue(Grid.ColumnSpanProperty, 3);
             questionText.SetValue(Grid.RowSpanProperty, 3);
+
+
+            do
+            {
+                rAnswer = random.Next(0, 3);
+            }
+            while (alreadyTaken.Contains(rAnswer));
+            alreadyTaken.Add(rAnswer);
+
+
+            Button answerButton1 = new Button
+            {
+                Content = randomizedQuestions[currentQuestion].Answers[rAnswer],
+                Width = 550,
+                Height = 80,
+                FontSize = 25,
+                Margin = new Thickness(0, 0, 0, 200)
+            };
+            MainGrid.Children.Add(answerButton1);
+            answerButton1.SetValue(Grid.RowProperty, 2);
+            answerButton1.SetValue(Grid.ColumnProperty, 1);
+
+            do
+            {
+                rAnswer = random.Next(0, 3);
+            }
+            while (alreadyTaken.Contains(rAnswer));
+            alreadyTaken.Add(rAnswer);
+
+
+            Button answerButton2 = new Button
+            {
+                Content = randomizedQuestions[currentQuestion].Answers[rAnswer],
+                Width = 550,
+                Height = 80,
+                FontSize = 25,
+            };
+            MainGrid.Children.Add(answerButton2);
+            answerButton2.SetValue(Grid.RowProperty, 2);
+            answerButton2.SetValue(Grid.ColumnProperty, 1);
+
+
+            do
+            {
+                rAnswer = random.Next(0, 3);
+            }
+            while (alreadyTaken.Contains(rAnswer));
+
+            alreadyTaken.Add(rAnswer);
+
+            Button answerButton3 = new Button
+            {
+                Content = randomizedQuestions[currentQuestion].Answers[rAnswer],
+                Width = 550,
+                Height = 80,
+                FontSize = 25,
+                Margin = new Thickness(0, 200, 0, 0)
+            };
+            MainGrid.Children.Add(answerButton3);
+            answerButton3.SetValue(Grid.RowProperty, 2);
+            answerButton3.SetValue(Grid.ColumnProperty, 1);
 
         }
 
