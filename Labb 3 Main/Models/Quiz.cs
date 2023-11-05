@@ -13,13 +13,33 @@ namespace Labb_3_Main.Models
     {
         public string Title { get; set; }
         public List<Question> _questions;
+        public List<Question> _randomizedQuestions;
 
         public Quiz(string title)
         {
             Title = title;
             _questions = new List<Question>();
+            _randomizedQuestions = new List<Question>();
         }
 
+        public void RandomizeQuisions()
+        {
+            _randomizedQuestions.Clear();
+
+            Random random = new Random();
+
+            for (int i = 0; i < _questions.Count; i++) // Create the random order of questions
+            {
+                int r = 0;
+                do
+                {
+                    r = random.Next(0, _questions.Count);
+                }
+                while (_randomizedQuestions.Contains(_questions[r]));
+
+                _randomizedQuestions.Add(_questions[r]);
+            }
+        }
         public Question GetRandomQuestion()
         {
             throw new NotImplementedException("A random question needs to be returned here");
@@ -30,6 +50,7 @@ namespace Labb_3_Main.Models
             _questions.Add(question);
             MessageBox.Show("Question was succesfully added to your quiz");
         }
+
 
         public void RemoveQuestion(int index)
         {

@@ -57,6 +57,7 @@ namespace Labb_3_Main
         public Quiz selectedQuizBox;
         public int oldQuestionId;
         public int selectedQuizBoxID;
+        public int currentQuestion = 0;
 
         CurrentMenu menu = new CurrentMenu();
 
@@ -202,36 +203,19 @@ namespace Labb_3_Main
         {
             CreateGrid.Grid_Play(MainGrid);
 
-            
             List<int> alreadyTaken = new List<int>();
-            List<Question> randomizedQuestions = new List<Question>();
-            List<Question> yourAnswers = new List<Question>();
-            int currentQuestion = 0;
 
             Random random = new Random();
 
-
-
-            for (int i = 0;i < quizPlay._questions.Count; i++) // Create the random order of questions
-            {
-                int r = 0;
-                do
-                {
-                    r = random.Next(0, quizPlay._questions.Count);
-                }
-                while (randomizedQuestions.Contains(quizPlay._questions[r]));
-
-
-                randomizedQuestions.Add(quizPlay._questions[r]);
-            }
-
+            quizPlay.RandomizeQuisions();
+            
             alreadyTaken.Clear();
             int rAnswer = random.Next(0, 3);
 
 
             TextBlock questionText = new TextBlock
             {
-                Text = randomizedQuestions[currentQuestion].Statment,
+                Text = quizPlay._randomizedQuestions[currentQuestion].Statment,
                 Width=1300,
                 Height=200,
                 FontSize = 50,
@@ -254,7 +238,7 @@ namespace Labb_3_Main
 
             Button answerButton1 = new Button
             {
-                Content = randomizedQuestions[currentQuestion].Answers[rAnswer],
+                Content = quizPlay._randomizedQuestions[currentQuestion].Answers[rAnswer],
                 Width = 550,
                 Height = 80,
                 FontSize = 25,
@@ -263,6 +247,7 @@ namespace Labb_3_Main
             MainGrid.Children.Add(answerButton1);
             answerButton1.SetValue(Grid.RowProperty, 2);
             answerButton1.SetValue(Grid.ColumnProperty, 1);
+            answerButton1.Click += AnwerButton1_CLick;
 
             do
             {
@@ -274,7 +259,7 @@ namespace Labb_3_Main
 
             Button answerButton2 = new Button
             {
-                Content = randomizedQuestions[currentQuestion].Answers[rAnswer],
+                Content = quizPlay._randomizedQuestions[currentQuestion].Answers[rAnswer],
                 Width = 550,
                 Height = 80,
                 FontSize = 25,
@@ -282,6 +267,7 @@ namespace Labb_3_Main
             MainGrid.Children.Add(answerButton2);
             answerButton2.SetValue(Grid.RowProperty, 2);
             answerButton2.SetValue(Grid.ColumnProperty, 1);
+            answerButton2.Click += AnwerButton2_CLick;
 
 
             do
@@ -294,7 +280,7 @@ namespace Labb_3_Main
 
             Button answerButton3 = new Button
             {
-                Content = randomizedQuestions[currentQuestion].Answers[rAnswer],
+                Content = quizPlay._randomizedQuestions[currentQuestion].Answers[rAnswer],
                 Width = 550,
                 Height = 80,
                 FontSize = 25,
@@ -303,9 +289,51 @@ namespace Labb_3_Main
             MainGrid.Children.Add(answerButton3);
             answerButton3.SetValue(Grid.RowProperty, 2);
             answerButton3.SetValue(Grid.ColumnProperty, 1);
+            answerButton3.Click += AnwerButton3_CLick;
 
         }
 
+        private void AnwerButton1_CLick(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+
+            if (button.Content == quizPlay._randomizedQuestions[currentQuestion].Answers[quizPlay._randomizedQuestions[currentQuestion].CorrectAnswer])
+            {
+                MessageBox.Show("Correct answer");
+            }
+            else
+            {
+                MessageBox.Show("Wrong answer");
+            }
+        }
+
+        private void AnwerButton2_CLick(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+
+            if (button.Content == quizPlay._randomizedQuestions[currentQuestion].Answers[quizPlay._randomizedQuestions[currentQuestion].CorrectAnswer])
+            {
+                MessageBox.Show("Correct answer");
+            }
+            else
+            {
+                MessageBox.Show("Wrong answer");
+            }
+        }
+
+        private void AnwerButton3_CLick(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+
+            if (button.Content == quizPlay._randomizedQuestions[currentQuestion].Answers[quizPlay._randomizedQuestions[currentQuestion].CorrectAnswer])
+            {
+                MessageBox.Show("Correct answer");
+            }
+            else
+            {
+                MessageBox.Show("Wrong answer");
+            }
+        }
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
