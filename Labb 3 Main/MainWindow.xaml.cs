@@ -46,18 +46,27 @@ namespace Labb_3_Main
         private TextBox answer1TextChange;
         private TextBox answer2TextChange;
         private TextBox answer3TextChange;
-
         private TextBox quizTitleText;
+
+        TextBlock questionText;
+        Button answerButton1;
+        Button answerButton2;
+        Button answerButton3;
 
         public Quiz quizPlay;
         public ComboBoxItem chooseQuiz = new ComboBoxItem();
         public ComboBoxItem titleItem2 = new ComboBoxItem();
+        ProgressBar answersRight;
 
         public Question selectedQuestionBox;
         public Quiz selectedQuizBox;
+
         public int oldQuestionId;
         public int selectedQuizBoxID;
         public int currentQuestion = 0;
+        public int rAnswer = 0;
+        public int progressBarIncrement;
+        public bool quizIsSelected = false;
 
         CurrentMenu menu = new CurrentMenu();
 
@@ -108,7 +117,6 @@ namespace Labb_3_Main
         private void MainButton_Click(object sender, RoutedEventArgs e)
         {
             menu = CurrentMenu.Main;
-            MainGrid.ShowGridLines = true;
             CreateGrid.Grid_Main(MainGrid);
 
 
@@ -185,6 +193,7 @@ namespace Labb_3_Main
 
             }
         }
+
         private void chosenQuiz_SelectionChanged(Object sender, RoutedEventArgs e)
         {
             ComboBox comboBox = sender as ComboBox;
@@ -197,102 +206,152 @@ namespace Labb_3_Main
                     quizPlay = q;
                 }
             }
+            quizIsSelected = true;
         }
 
         private void StartQuiz_Click(object sender, RoutedEventArgs e)
         {
-            CreateGrid.Grid_Play(MainGrid);
+            if(quizIsSelected == false)
+            {
+                MessageBox.Show("You need to select a quiz to start");
+            }
+            else
+             {
+                CreateGrid.Grid_Play(MainGrid);
 
+                List<int> alreadyTaken = new List<int>();
+
+                Random random = new Random();
+
+                alreadyTaken.Clear();
+
+                rAnswer = random.Next(0, 3);
+
+                quizPlay.RandomizeQuisions();
+                progressBarIncrement = 100 /(quizPlay._randomizedQuestions.Count);
+
+                answersRight = new ProgressBar
+                {
+                    Width = 400,
+                    Height = 30
+                };
+                MainGrid.Children.Add(answersRight);
+                answersRight.SetValue(Grid.RowProperty, 1);
+                answersRight.SetValue(Grid.ColumnProperty, 2);
+
+                questionText = new TextBlock
+                {
+                    Text = quizPlay._randomizedQuestions[currentQuestion].Statment,
+                    Width = 1300,
+                    Height = 200,
+                    FontSize = 50,
+                    Margin = new Thickness(0, 0, 0, 300)
+                };
+                MainGrid.Children.Add(questionText);
+                questionText.SetValue(Grid.RowProperty, 1);
+                questionText.SetValue(Grid.ColumnProperty, 1);
+                questionText.SetValue(Grid.ColumnSpanProperty, 3);
+                questionText.SetValue(Grid.RowSpanProperty, 3);
+
+
+                do
+                {
+                    rAnswer = random.Next(0, 3);
+                }
+                while (alreadyTaken.Contains(rAnswer));
+                alreadyTaken.Add(rAnswer);
+
+
+                answerButton1 = new Button
+                {
+                    Content = quizPlay._randomizedQuestions[currentQuestion].Answers[rAnswer],
+                    Width = 650,
+                    Height = 80,
+                    FontSize = 25,
+                    Margin = new Thickness(0, 0, 0, 200)
+                };
+                MainGrid.Children.Add(answerButton1);
+                answerButton1.SetValue(Grid.RowProperty, 2);
+                answerButton1.SetValue(Grid.ColumnProperty, 1);
+                answerButton1.Click += AnwerButton1_CLick;
+
+                do
+                {
+                    rAnswer = random.Next(0, 3);
+                }
+                while (alreadyTaken.Contains(rAnswer));
+
+                alreadyTaken.Add(rAnswer);
+
+
+                answerButton2 = new Button
+                {
+                    Content = quizPlay._randomizedQuestions[currentQuestion].Answers[rAnswer],
+                    Width = 650,
+                    Height = 80,
+                    FontSize = 25,
+                };
+                MainGrid.Children.Add(answerButton2);
+                answerButton2.SetValue(Grid.RowProperty, 2);
+                answerButton2.SetValue(Grid.ColumnProperty, 1);
+                answerButton2.Click += AnwerButton2_CLick;
+
+                do
+                {
+                    rAnswer = random.Next(0, 3);
+                }
+                while (alreadyTaken.Contains(rAnswer));
+
+                alreadyTaken.Add(rAnswer);
+
+                answerButton3 = new Button
+                {
+                    Content = quizPlay._randomizedQuestions[currentQuestion].Answers[rAnswer],
+                    Width = 650,
+                    Height = 80,
+                    FontSize = 25,
+                    Margin = new Thickness(0, 200, 0, 0)
+                };
+                MainGrid.Children.Add(answerButton3);
+                answerButton3.SetValue(Grid.RowProperty, 2);
+                answerButton3.SetValue(Grid.ColumnProperty, 1);
+                answerButton3.Click += AnwerButton3_CLick;
+
+            }
+        }
+
+        private void UpdateQuestionValues()
+        {
             List<int> alreadyTaken = new List<int>();
 
             Random random = new Random();
+            questionText.Text = quizPlay._randomizedQuestions[currentQuestion].Statment;// Updates the statnebt text
 
-            quizPlay.RandomizeQuisions();
-            
-            alreadyTaken.Clear();
-            int rAnswer = random.Next(0, 3);
-
-
-            TextBlock questionText = new TextBlock
+            for (int i = 0; i < 3; i++)
             {
-                Text = quizPlay._randomizedQuestions[currentQuestion].Statment,
-                Width=1300,
-                Height=200,
-                FontSize = 50,
-                Margin = new Thickness(0,0,0,300)
-            };
-            MainGrid.Children.Add(questionText);
-            questionText.SetValue(Grid.RowProperty, 1);
-            questionText.SetValue(Grid.ColumnProperty, 1);
-            questionText.SetValue(Grid.ColumnSpanProperty, 3);
-            questionText.SetValue(Grid.RowSpanProperty, 3);
-
-
-            do
-            {
-                rAnswer = random.Next(0, 3);
+                do
+                {
+                    rAnswer = random.Next(0, 3);
+                }
+                while (alreadyTaken.Contains(rAnswer));
+                
+                if(i == 0)
+                {
+                    answerButton1.Content = quizPlay._randomizedQuestions[currentQuestion].Answers[rAnswer];
+                }
+                else if(i == 1)
+                {
+                    answerButton2.Content = quizPlay._randomizedQuestions[currentQuestion].Answers[rAnswer];
+                }
+                else if(i == 2)
+                {
+                    answerButton3.Content = quizPlay._randomizedQuestions[currentQuestion].Answers[rAnswer];
+                }
+                alreadyTaken.Add(rAnswer);
             }
-            while (alreadyTaken.Contains(rAnswer));
-            alreadyTaken.Add(rAnswer);
-
-
-            Button answerButton1 = new Button
-            {
-                Content = quizPlay._randomizedQuestions[currentQuestion].Answers[rAnswer],
-                Width = 550,
-                Height = 80,
-                FontSize = 25,
-                Margin = new Thickness(0, 0, 0, 200)
-            };
-            MainGrid.Children.Add(answerButton1);
-            answerButton1.SetValue(Grid.RowProperty, 2);
-            answerButton1.SetValue(Grid.ColumnProperty, 1);
-            answerButton1.Click += AnwerButton1_CLick;
-
-            do
-            {
-                rAnswer = random.Next(0, 3);
-            }
-            while (alreadyTaken.Contains(rAnswer));
-            alreadyTaken.Add(rAnswer);
-
-
-            Button answerButton2 = new Button
-            {
-                Content = quizPlay._randomizedQuestions[currentQuestion].Answers[rAnswer],
-                Width = 550,
-                Height = 80,
-                FontSize = 25,
-            };
-            MainGrid.Children.Add(answerButton2);
-            answerButton2.SetValue(Grid.RowProperty, 2);
-            answerButton2.SetValue(Grid.ColumnProperty, 1);
-            answerButton2.Click += AnwerButton2_CLick;
-
-
-            do
-            {
-                rAnswer = random.Next(0, 3);
-            }
-            while (alreadyTaken.Contains(rAnswer));
 
             alreadyTaken.Add(rAnswer);
-
-            Button answerButton3 = new Button
-            {
-                Content = quizPlay._randomizedQuestions[currentQuestion].Answers[rAnswer],
-                Width = 550,
-                Height = 80,
-                FontSize = 25,
-                Margin = new Thickness(0, 200, 0, 0)
-            };
-            MainGrid.Children.Add(answerButton3);
-            answerButton3.SetValue(Grid.RowProperty, 2);
-            answerButton3.SetValue(Grid.ColumnProperty, 1);
-            answerButton3.Click += AnwerButton3_CLick;
-
         }
-
         private void AnwerButton1_CLick(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
@@ -300,11 +359,16 @@ namespace Labb_3_Main
             if (button.Content == quizPlay._randomizedQuestions[currentQuestion].Answers[quizPlay._randomizedQuestions[currentQuestion].CorrectAnswer])
             {
                 MessageBox.Show("Correct answer");
+                answersRight.Value += progressBarIncrement;
             }
             else
             {
                 MessageBox.Show("Wrong answer");
             }
+            currentQuestion++;
+            UpdateQuestionValues();
+            //button.Content = quizPlay._randomizedQuestions[currentQuestion].Answers[rAnswer];
+            //StartQuiz_Click(sender, e);
         }
 
         private void AnwerButton2_CLick(object sender, RoutedEventArgs e)
@@ -314,11 +378,16 @@ namespace Labb_3_Main
             if (button.Content == quizPlay._randomizedQuestions[currentQuestion].Answers[quizPlay._randomizedQuestions[currentQuestion].CorrectAnswer])
             {
                 MessageBox.Show("Correct answer");
+                answersRight.Value += progressBarIncrement;
             }
             else
             {
                 MessageBox.Show("Wrong answer");
             }
+            currentQuestion++;
+            UpdateQuestionValues();
+            //button.Content = quizPlay._randomizedQuestions[currentQuestion].Answers[rAnswer];
+            //StartQuiz_Click(sender, e);
         }
 
         private void AnwerButton3_CLick(object sender, RoutedEventArgs e)
@@ -328,11 +397,16 @@ namespace Labb_3_Main
             if (button.Content == quizPlay._randomizedQuestions[currentQuestion].Answers[quizPlay._randomizedQuestions[currentQuestion].CorrectAnswer])
             {
                 MessageBox.Show("Correct answer");
+                answersRight.Value += progressBarIncrement;
             }
             else
             {
                 MessageBox.Show("Wrong answer");
             }
+            currentQuestion++;
+            UpdateQuestionValues();
+            //button.Content = quizPlay._randomizedQuestions[currentQuestion].Answers[rAnswer];
+            //StartQuiz_Click(sender, e);
         }
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
@@ -391,7 +465,7 @@ namespace Labb_3_Main
             titleChange.SetValue(Grid.RowProperty, 9);
             titleChange.SetValue(Grid.ColumnProperty, 1);
             titleChange.SetValue(Grid.ColumnSpanProperty, 6);
-            titleChange.Text = "Change selected question";
+            titleChange.Text = "Edit selected question";
             titleChange.FontSize = 40;
             titleChange.Height = 50;
 
