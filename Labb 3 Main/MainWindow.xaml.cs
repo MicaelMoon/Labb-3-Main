@@ -22,6 +22,7 @@ namespace Labb_3_Main
 {
     public enum CurrentMenu
     {
+        StartUp,
         Main,
         Settings,
         ScoreBord
@@ -29,7 +30,9 @@ namespace Labb_3_Main
     public partial class MainWindow : Window
     {
         public static List<Quiz> quizList = new List<Quiz>();
+        public static List<Quiz> originalQuizList = new List<Quiz>();
         public static List<Question> questionList = new List<Question>();
+        public static List<Question> originalQuestionsList = new List<Question>();
 
         private TextBox statment;
         private TextBox answer1Text;
@@ -62,7 +65,7 @@ namespace Labb_3_Main
         public int progressBarIncrement;
         public bool quizIsSelected = false;
 
-        CurrentMenu menu = new CurrentMenu();
+        public static CurrentMenu menu;
 
 
         public MainWindow()
@@ -73,6 +76,7 @@ namespace Labb_3_Main
 
         async Task LoadInContent()
         {
+            menu = CurrentMenu.StartUp;
             string appdataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appdata");
             Directory.CreateDirectory(appdataPath);
             string localPath = Path.Combine(appdataPath, "local");
@@ -87,42 +91,53 @@ namespace Labb_3_Main
             string[] questionFiles = Directory.GetFiles(questionPath, "*Question.json");
             string[] quizzesFiles = Directory.GetFiles(quizPath, "*Quiz.json");
 
+            string[] answers1 = new string[3];
+            string[] answers2 = new string[3];
+            string[] answers3 = new string[3];
+            string[] answers4 = new string[3];
+            string[] answers5 = new string[3];
 
             string statment = "Why didnt the skeleton go to the prom?";
-            string[] answers = new string[3];
-            answers[0] = "Because he had no body to go with";
-            answers[1] = "Because he had no backbone";
-            answers[2] = "Because he was ugly, fat and nobody liked him";
-            Question question1 = new Question(statment, answers, 0);
+            answers1[0] = "Because he had no body to go with";
+            answers1[1] = "Because he had no backbone";
+            answers1[2] = "Because he was ugly, fat and nobody liked him";
+            Question question1 = new Question(statment, answers1, 0);
+            originalQuestionsList.Add(question1);
 
             statment = "Why dont mummies take vacation?";
-            answers[0] = "They're afraid they'll relax and unwind.";
-            answers[1] = "They cant fine their tomb passport.";
-            answers[2] = "They're afrain they'll get wrapped up in the details";
-            Question question2 = new Question(statment, answers, 0);
+            answers2[0] = "They're afraid they'll relax and unwind.";
+            answers2[1] = "They cant fine their tomb passport.";
+            answers2[2] = "They're afrain they'll get wrapped up in the details";
+            Question question2 = new Question(statment, answers2, 0);
+            originalQuestionsList.Add(question2);
 
             statment = "What kind of monster loves to disco?";
-            answers[0] = "The Boggie man.";
-            answers[1] = "The pumpkin king.";
-            answers[2] = " The ghostly grove.";
-            Question question3 = new Question(statment, answers, 0);
+            answers3[0] = "The Boggie man.";
+            answers3[1] = "The pumpkin king.";
+            answers3[2] = " The ghostly grove.";
+            Question question3 = new Question(statment, answers3, 0);
+            originalQuestionsList.Add(question3);
 
             statment = "What do you call a witch who lives at the beach?";
-            answers[0] = "A sandy witch.";
-            answers[1] = "A sea witch.";
-            answers[2] = "A beatch hag.";
-            Question question4 = new Question(statment, answers, 0);
+            answers4[0] = "A sandy witch.";
+            answers4[1] = "A sea witch.";
+            answers4[2] = "A beatch hag.";
+            Question question4 = new Question(statment, answers4, 0);
+            originalQuestionsList.Add(question4);
 
             statment = "What do you get if you cross a vampire with a snowman?";
-            answers[0] = "Frostbite.";
-            answers[1] = "Frosty the Fangman.";
-            answers[2] = "Count Chocula";
-            Question question5 = new Question(statment, answers, 0);
+            answers5[0] = "Frostbite.";
+            answers5[1] = "Frosty the Fangman.";
+            answers5[2] = "Count Chocula";
+            Question question5 = new Question(statment, answers5, 0);
+            originalQuestionsList.Add(question5);
 
 
 
 
-
+            Quiz quiz1 = new Quiz("Spooky quiz");
+            quiz1.AddQuestion(question1);
+            originalQuizList.Add(quiz1);
             //Question question = null;
             //Quiz quiz = null;
 
@@ -154,9 +169,7 @@ namespace Labb_3_Main
         {
             menu = CurrentMenu.Main;
             CreateGrid.Grid_Main(MainGrid);
-            MainGrid.ShowGridLines = true;
-
-
+    
 
             Button startQuizButton = new Button
             {
@@ -219,6 +232,11 @@ namespace Labb_3_Main
 
             try
             {
+                for(int i = 0; i < originalQuizList.Count; i++)
+                {
+                    chooseQuiz.Items.Add(originalQuizList[i].Title);
+                }
+
                 for (int i = 0;i < quizList.Count; i++)
                 {
                     chooseQuiz.Items.Add(quizList[i].Title);
@@ -234,6 +252,14 @@ namespace Labb_3_Main
         {
             ComboBox comboBox = sender as ComboBox;
             string data = comboBox.SelectedItem.ToString();
+
+            foreach(var q in originalQuizList)
+            {
+                if (q.Title == data)
+                {
+                    quizPlay = q;
+                }
+            }
 
             foreach (var q in quizList)
             {
@@ -253,7 +279,7 @@ namespace Labb_3_Main
             }
             else if (currentQuestion == quizPlay._questions.Count)
             {
-                MessageBox.Show("Yyou are done");
+                MessageBox.Show("You are done");
             }
             else
             {
@@ -389,8 +415,8 @@ namespace Labb_3_Main
                     {
                         answerButton3.Content = quizPlay._randomizedQuestions[currentQuestion].Answers[rAnswer];
                     }
-                    alreadyTaken.Add(rAnswer);
                 }
+                MessageBox.Show($"{currentQuestion}");
             }
             catch(System.ArgumentOutOfRangeException)
             {
@@ -833,6 +859,11 @@ namespace Labb_3_Main
 
             try
             {
+                for (int i = 0; i < originalQuestionsList.Count; i++)
+                {
+                    questionBox.Items.Add(originalQuestionsList[i].Statment);
+                }
+
                 for (int i = 0; i < questionList.Count; i++)
                 {
                     questionBox.Items.Add(questionList[i].Statment);
@@ -845,7 +876,12 @@ namespace Labb_3_Main
 
             try
             {
-                for (int i = 0; i < questionList.Count; i++)
+                for (int i = 0; i < originalQuizList.Count; i++)
+                {
+                    quizBox.Items.Add(originalQuizList[i].Title);
+                }
+
+                for (int i = 0; i < quizList.Count; i++)
                 {
                     quizBox.Items.Add(quizList[i].Title);
                 }
@@ -873,6 +909,16 @@ namespace Labb_3_Main
             ComboBox comboBox = sender as ComboBox;
             string selectedItem = comboBox.SelectedItem.ToString();
 
+            for (int i = 0; i < originalQuestionsList.Count; i++)
+            {
+                if (originalQuestionsList[i].Statment == selectedItem)
+                {
+                    selectedQuestionBox = originalQuestionsList[i];
+                    oldQuestionId = i;
+                    SettingsButton_Click(sender, e);
+                }
+            }
+
             for (int i = 0; i < questionList.Count; i++)
             {
                 if (questionList[i].Statment == selectedItem)
@@ -888,6 +934,16 @@ namespace Labb_3_Main
         {
             ComboBox comboBox = sender as ComboBox;
             string selectedItem = comboBox.SelectedItem.ToString();
+
+            for (int i = 0; i < originalQuizList.Count; i++)
+            {
+                if (originalQuizList[i].Title == selectedItem)
+                {
+                    selectedQuizBox = originalQuizList[i];
+                    selectedQuizBoxID = i;
+                    SettingsButton_Click(sender, e);
+                }
+            }
 
             for (int i = 0; i < quizList.Count; i++)
             {

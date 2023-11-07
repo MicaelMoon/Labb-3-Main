@@ -48,7 +48,11 @@ namespace Labb_3_Main.Models
         public void AddQuestion(Question question)
         {
             _questions.Add(question);
-            MessageBox.Show("Question was succesfully added to your quiz");
+
+            if(MainWindow.menu != CurrentMenu.StartUp)
+            {
+                MessageBox.Show("Question was succesfully added to your quiz");
+            }
         }
 
 
