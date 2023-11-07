@@ -65,6 +65,7 @@ namespace Labb_3_Main
         public int selectedQuizBoxID;
         public int currentQuestion = 0;
         public int rAnswer = 0;
+        public int points = 0;
         public int progressBarIncrement;
         public bool quizIsSelected = false;
 
@@ -118,7 +119,7 @@ namespace Labb_3_Main
         {
             menu = CurrentMenu.Main;
             CreateGrid.Grid_Main(MainGrid);
-
+            MainGrid.ShowGridLines = true;
 
 
 
@@ -194,7 +195,7 @@ namespace Labb_3_Main
             }
         }
 
-        private void chosenQuiz_SelectionChanged(Object sender, RoutedEventArgs e)
+        private void chosenQuiz_SelectionChanged(object sender, RoutedEventArgs e)
         {
             ComboBox comboBox = sender as ComboBox;
             string data = comboBox.SelectedItem.ToString();
@@ -215,8 +216,12 @@ namespace Labb_3_Main
             {
                 MessageBox.Show("You need to select a quiz to start");
             }
+            else if (currentQuestion == quizPlay._questions.Count)
+            {
+                MessageBox.Show("Yyou are done");
+            }
             else
-             {
+            {
                 CreateGrid.Grid_Play(MainGrid);
 
                 List<int> alreadyTaken = new List<int>();
@@ -322,35 +327,61 @@ namespace Labb_3_Main
 
         private void UpdateQuestionValues()
         {
-            List<int> alreadyTaken = new List<int>();
-
-            Random random = new Random();
-            questionText.Text = quizPlay._randomizedQuestions[currentQuestion].Statment;// Updates the statnebt text
-
-            for (int i = 0; i < 3; i++)
+            try 
             {
-                do
+                List<int> alreadyTaken = new List<int>();
+
+                Random random = new Random();
+                questionText.Text = quizPlay._randomizedQuestions[currentQuestion].Statment;// Updates the statnebt text
+
+                for (int i = 0; i < 3; i++)
                 {
-                    rAnswer = random.Next(0, 3);
+                    do
+                    {
+                        rAnswer = random.Next(0, 3);
+                    }
+                    while (alreadyTaken.Contains(rAnswer));
+
+                    if (i == 0)
+                    {
+                        answerButton1.Content = quizPlay._randomizedQuestions[currentQuestion].Answers[rAnswer];
+                    }
+                    else if (i == 1)
+                    {
+                        answerButton2.Content = quizPlay._randomizedQuestions[currentQuestion].Answers[rAnswer];
+                    }
+                    else if (i == 2)
+                    {
+                        answerButton3.Content = quizPlay._randomizedQuestions[currentQuestion].Answers[rAnswer];
+                    }
+                    alreadyTaken.Add(rAnswer);
                 }
-                while (alreadyTaken.Contains(rAnswer));
-                
-                if(i == 0)
-                {
-                    answerButton1.Content = quizPlay._randomizedQuestions[currentQuestion].Answers[rAnswer];
-                }
-                else if(i == 1)
-                {
-                    answerButton2.Content = quizPlay._randomizedQuestions[currentQuestion].Answers[rAnswer];
-                }
-                else if(i == 2)
-                {
-                    answerButton3.Content = quizPlay._randomizedQuestions[currentQuestion].Answers[rAnswer];
-                }
-                alreadyTaken.Add(rAnswer);
+            }
+            catch(System.ArgumentOutOfRangeException)
+            {
+                GameFinished();
             }
 
-            alreadyTaken.Add(rAnswer);
+        }
+
+        private void GameFinished()
+        {
+            CreateGrid.Grid_Play(MainGrid);
+
+            TextBlock textBlock = new TextBlock
+            {
+                Text = "Concratulations, You've finished the quiz\n" +
+                $"You answered {progressBarIncrement * points}% of the questions right\n" +
+                $"Scoring a total of {points} out of {quizPlay._randomizedQuestions.Count}.",
+                FontSize = 50,
+                
+            };
+            MainGrid.Children.Add(textBlock);
+            textBlock.SetValue(Grid.RowProperty, 1);
+            textBlock.SetValue(Grid.ColumnProperty, 1);
+            textBlock.SetValue(Grid.ColumnSpanProperty, 2);
+
+
         }
         private void AnwerButton1_CLick(object sender, RoutedEventArgs e)
         {
@@ -358,12 +389,13 @@ namespace Labb_3_Main
 
             if (button.Content == quizPlay._randomizedQuestions[currentQuestion].Answers[quizPlay._randomizedQuestions[currentQuestion].CorrectAnswer])
             {
-                MessageBox.Show("Correct answer");
+                //MessageBox.Show("Correct answer");
                 answersRight.Value += progressBarIncrement;
+                points++;
             }
             else
             {
-                MessageBox.Show("Wrong answer");
+                //MessageBox.Show("Wrong answer");
             }
             currentQuestion++;
             UpdateQuestionValues();
@@ -377,12 +409,13 @@ namespace Labb_3_Main
 
             if (button.Content == quizPlay._randomizedQuestions[currentQuestion].Answers[quizPlay._randomizedQuestions[currentQuestion].CorrectAnswer])
             {
-                MessageBox.Show("Correct answer");
+                //MessageBox.Show("Correct answer");
                 answersRight.Value += progressBarIncrement;
+                points++;
             }
             else
             {
-                MessageBox.Show("Wrong answer");
+                //MessageBox.Show("Wrong answer");
             }
             currentQuestion++;
             UpdateQuestionValues();
@@ -396,12 +429,13 @@ namespace Labb_3_Main
 
             if (button.Content == quizPlay._randomizedQuestions[currentQuestion].Answers[quizPlay._randomizedQuestions[currentQuestion].CorrectAnswer])
             {
-                MessageBox.Show("Correct answer");
+                //MessageBox.Show("Correct answer");
                 answersRight.Value += progressBarIncrement;
+                points++;
             }
             else
             {
-                MessageBox.Show("Wrong answer");
+                //MessageBox.Show("Wrong answer");
             }
             currentQuestion++;
             UpdateQuestionValues();
