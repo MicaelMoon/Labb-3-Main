@@ -24,14 +24,7 @@ namespace Labb_3_Main
     {
         Main,
         Settings,
-        QuizSettings,
-        CreateQuiz,
-        EditQuiz,
-        QuestionSettings,
-        CreateQuestion,
-        EditQuestion,
-
-
+        ScoreBord
     }
     public partial class MainWindow : Window
     {
@@ -92,27 +85,69 @@ namespace Labb_3_Main
             Directory.CreateDirectory(questionPath);
 
             string[] questionFiles = Directory.GetFiles(questionPath, "*Question.json");
-            string[] quizzesFiles = Directory.GetFiles(quizPath, "*Quiz.json"); 
+            string[] quizzesFiles = Directory.GetFiles(quizPath, "*Quiz.json");
+
+
+            string statment = "Why didnt the skeleton go to the prom?";
+            string[] answers = new string[3];
+            answers[0] = "Because he had no body to go with";
+            answers[1] = "Because he had no backbone";
+            answers[2] = "Because he was ugly, fat and nobody liked him";
+            Question question1 = new Question(statment, answers, 0);
+
+            statment = "Why dont mummies take vacation?";
+            answers[0] = "They're afraid they'll relax and unwind.";
+            answers[1] = "They cant fine their tomb passport.";
+            answers[2] = "They're afrain they'll get wrapped up in the details";
+            Question question2 = new Question(statment, answers, 0);
+
+            statment = "What kind of monster loves to disco?";
+            answers[0] = "The Boggie man.";
+            answers[1] = "The pumpkin king.";
+            answers[2] = " The ghostly grove.";
+            Question question3 = new Question(statment, answers, 0);
+
+            statment = "What do you call a witch who lives at the beach?";
+            answers[0] = "A sandy witch.";
+            answers[1] = "A sea witch.";
+            answers[2] = "A beatch hag.";
+            Question question4 = new Question(statment, answers, 0);
+
+            statment = "What do you get if you cross a vampire with a snowman?";
+            answers[0] = "Frostbite.";
+            answers[1] = "Frosty the Fangman.";
+            answers[2] = "Count Chocula";
+            Question question5 = new Question(statment, answers, 0);
+
+
+
 
 
             //Question question = null;
             //Quiz quiz = null;
 
-            await Task.Run(async () =>
+            try
             {
-                foreach (var q in questionFiles)
+                await Task.Run(async () =>
                 {
-                    string json = await File.ReadAllTextAsync(q);
-                    var question = JsonConvert.DeserializeObject<Question>(json);
-                    questionList.Add(question);
-                }
-                foreach(var q in quizzesFiles)
-                {
-                    string json = await File.ReadAllTextAsync(q);
-                    var quiz = JsonConvert.DeserializeObject<Quiz>(json);
-                    quizList.Add(quiz);
-                }
-            });
+                    foreach (var q in questionFiles)
+                    {
+                        string json = await File.ReadAllTextAsync(q);
+                        var question = JsonConvert.DeserializeObject<Question>(json);
+                        questionList.Add(question);
+                    }
+                    foreach (var q in quizzesFiles)
+                    {
+                        string json = await File.ReadAllTextAsync(q);
+                        var quiz = JsonConvert.DeserializeObject<Quiz>(json);
+                        quizList.Add(quiz);
+                    }
+                });
+            }
+            catch
+            {
+
+            }
         }
 
         private void MainButton_Click(object sender, RoutedEventArgs e)
@@ -366,6 +401,8 @@ namespace Labb_3_Main
 
         private void GameFinished()
         {
+            menu = CurrentMenu.ScoreBord;
+
             CreateGrid.Grid_Play(MainGrid);
 
             TextBlock textBlock = new TextBlock
@@ -381,7 +418,19 @@ namespace Labb_3_Main
             textBlock.SetValue(Grid.ColumnProperty, 1);
             textBlock.SetValue(Grid.ColumnSpanProperty, 2);
 
-
+            Button button = new Button
+            {
+                Content = "Menu",
+                Width = 400,
+                Height = 200,
+                FontSize = 30,
+                Margin = new Thickness(0, 0, 0, 0)
+            };
+            MainGrid.Children.Add(button);
+            button.SetValue(Grid.RowProperty, 2);
+            button.SetValue(Grid.ColumnProperty, 1);
+            button.SetValue(Grid.ColumnSpanProperty, 2);
+            button.Click += BackButton_Click;
         }
         private void AnwerButton1_CLick(object sender, RoutedEventArgs e)
         {
@@ -817,7 +866,7 @@ namespace Labb_3_Main
                     quizList[selectedQuizBoxID].RemoveQuestion(i);
                 }
             }  
-        }
+        } // DOes nothing / Delete?
 
         private void QuestionBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -1004,23 +1053,8 @@ namespace Labb_3_Main
                 case CurrentMenu.Settings:
                     MainButton_Click(sender, e);
                     break;
-                case CurrentMenu.QuizSettings:
-                    SettingsButton_Click(sender, e);
-                    break;
-                case CurrentMenu.QuestionSettings:
-                    SettingsButton_Click(sender, e);
-                    break;
-                case CurrentMenu.CreateQuiz:
-                    //QuizSettingsButton_Click(sender, e);
-                    break;
-                case CurrentMenu.CreateQuestion:
-                    //QuestionSettingsButton_Click(sender, e);
-                    break;
-                case CurrentMenu.EditQuiz:
-                    //QuizSettingsButton_Click(sender, e);
-                    break;
-                case CurrentMenu.EditQuestion:
-                    //QuestionSettingsButton_Click(sender, e);
+                case CurrentMenu.ScoreBord:
+                    MainButton_Click(sender, e);
                     break;
             }
         }//Universal Back button
