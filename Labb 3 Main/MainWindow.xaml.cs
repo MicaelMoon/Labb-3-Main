@@ -74,7 +74,7 @@ namespace Labb_3_Main
             InitializeComponent();
         }
 
-        async Task LoadInContent()
+        async Task LoadInContent() // Får nästa gån rad måste nog lägga till dessa frågor i mappen pga System.ArgumentOutOfRangeException: på rad 975
         {
             menu = CurrentMenu.StartUp;
             string appdataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appdata");
@@ -97,7 +97,7 @@ namespace Labb_3_Main
             string[] answers4 = new string[3];
             string[] answers5 = new string[3];
 
-            string statment = "Why didnt the skeleton go to the prom?";
+            string statment = "Why did the skeleton go to the pary alone?";
             answers1[0] = "Because he had no body to go with";
             answers1[1] = "Because he had no backbone";
             answers1[2] = "Because he was ugly, fat and nobody liked him";
@@ -132,12 +132,51 @@ namespace Labb_3_Main
             Question question5 = new Question(statment, answers5, 0);
             originalQuestionsList.Add(question5);
 
+            statment = "Why was the skeleton so calm?";
+            answers5[0] = "Because nothing gets under its skin.";
+            answers5[1] = "FBecause it had a good body image.";
+            answers5[2] = "Because it had no guts no to be nervous";
+            Question question6 = new Question(statment, answers5, 0);
+            originalQuestionsList.Add(question6);
+
+            statment = "What's a vampires favorite fruit?";
+            answers5[0] = "Blood orange.";
+            answers5[1] = "Vampberry.";
+            answers5[2] = "Fangtastic fruit";
+            Question question7 = new Question(statment, answers5, 0);
+            originalQuestionsList.Add(question7);
+
+            statment = "Why did the scarecrow win and award?";
+            answers5[0] = "Because it was outstanding in its field.";
+            answers5[1] = "Because it had a straw-some personality.";
+            answers5[2] = "Because it had a pumpkin for a head.";
+            Question question8 = new Question(statment, answers5, 0);
+            originalQuestionsList.Add(question8);
+
+            statment = "What do you get if you cross a mummy and a vampire?";
+            answers5[0] = "A coffin dodger.";
+            answers5[1] = "A very wrapped up vampire.";
+            answers5[2] = "A pain in the neck";
+            Question question9 = new Question(statment, answers5, 0);
+            originalQuestionsList.Add(question9);
+
+            statment = "Why did the ghost go to the party?";
+            answers5[0] = "To have a hauntingly good time.";
+            answers5[1] = "To find its boo.";
+            answers5[2] = "To scare up some fun,";
+            Question question10 = new Question(statment, answers5, 0);
+            originalQuestionsList.Add(question10);
 
 
 
             Quiz quiz1 = new Quiz("Spooky quiz");
             quiz1.AddQuestion(question1);
+            quiz1.AddQuestion(question2);
+            quiz1.AddQuestion(question3);
+            quiz1.AddQuestion(question4);
+            quiz1.AddQuestion(question5);
             originalQuizList.Add(quiz1);
+
             //Question question = null;
             //Quiz quiz = null;
 
@@ -169,6 +208,7 @@ namespace Labb_3_Main
         {
             menu = CurrentMenu.Main;
             CreateGrid.Grid_Main(MainGrid);
+            currentQuestion = 0;
     
 
             Button startQuizButton = new Button
@@ -276,10 +316,6 @@ namespace Labb_3_Main
             if(quizIsSelected == false)
             {
                 MessageBox.Show("You need to select a quiz to start");
-            }
-            else if (currentQuestion == quizPlay._questions.Count)
-            {
-                MessageBox.Show("You are done");
             }
             else
             {
@@ -415,8 +451,8 @@ namespace Labb_3_Main
                     {
                         answerButton3.Content = quizPlay._randomizedQuestions[currentQuestion].Answers[rAnswer];
                     }
+                    alreadyTaken.Add(rAnswer);
                 }
-                MessageBox.Show($"{currentQuestion}");
             }
             catch(System.ArgumentOutOfRangeException)
             {
@@ -457,6 +493,8 @@ namespace Labb_3_Main
             button.SetValue(Grid.ColumnProperty, 1);
             button.SetValue(Grid.ColumnSpanProperty, 2);
             button.Click += BackButton_Click;
+
+            points = 0;
         }
         private void AnwerButton1_CLick(object sender, RoutedEventArgs e)
         {
@@ -969,6 +1007,7 @@ namespace Labb_3_Main
                 string[] changedAnswers = new string[] { answer1TextChange.Text, answer2TextChange.Text, answer3TextChange.Text };
                 Question question = new Question(statmentTextChange.Text, changedAnswers, 0);
                 questionList[oldQuestionId] = question;
+
 
 
                 string appdataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appdata");
