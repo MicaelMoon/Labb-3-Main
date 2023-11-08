@@ -30,9 +30,7 @@ namespace Labb_3_Main
     public partial class MainWindow : Window
     {
         public static List<Quiz> quizList = new List<Quiz>();
-        public static List<Quiz> originalQuizList = new List<Quiz>();
         public static List<Question> questionList = new List<Question>();
-        public static List<Question> originalQuestionsList = new List<Question>();
 
         private TextBox statment;
         private TextBox answer1Text;
@@ -62,7 +60,7 @@ namespace Labb_3_Main
         public int currentQuestion = 0;
         public int rAnswer = 0;
         public int points = 0;
-        public int progressBarIncrement;
+        public double progressBarIncrement;
         public bool quizIsSelected = false;
 
         public static CurrentMenu menu;
@@ -91,7 +89,7 @@ namespace Labb_3_Main
             string[] questionFiles = Directory.GetFiles(questionPath, "*Question.json");
             string[] quizzesFiles = Directory.GetFiles(quizPath, "*Quiz.json");
 
-            if(questionFiles.Length == 0) // if its your fist time opening the application it will add the set number of base questions and quizzes to json i chosen files
+            if(questionFiles.Length == 0 || quizzesFiles.Length == 0) // if its your fist time opening the application it will add the set number of base questions and quizzes to json i chosen files
             {
                 string[] answers1 = new string[3];
                 string[] answers2 = new string[3];
@@ -267,18 +265,20 @@ namespace Labb_3_Main
 
                 await Task.Run(async () =>
                 {
-                    for (int i = 0; i < originalQuizList.Count; i++)
+                    for (int i = 0; i < questionList.Count; i++)
                     {
                         string filePath = Path.Combine(questionPath, $"Nr_{i + 1}_Question.json");
-                        string questionJson = JsonConvert.SerializeObject(originalQuestionsList[i]);
+                        string questionJson = JsonConvert.SerializeObject(questionList[i]);
 
                         File.WriteAllText(filePath, questionJson);
                     }
 
-                    for (int i = 0; i < originalQuizList.Count; i++)
+                    for (int i = 0; i < quizList.Count; i++)
                     {
                         string filePath = Path.Combine(quizPath, $"Nr_{i + 1}_Quiz.json");
-                        string quizJson = JsonConvert.SerializeObject(originalQuizList[i]);
+                        string quizJson = JsonConvert.SerializeObject(quizList[i]);
+
+                        File.WriteAllText(filePath, quizJson);
                     }
                 });
             }
@@ -373,7 +373,7 @@ namespace Labb_3_Main
                 FontWeight = FontWeights.Bold,
             };
             chooseQuiz.Items.Add(titleItem);
-            chooseQuiz.SelectionChanged += chosenQuiz_SelectionChanged;
+            chooseQuiz.SelectionChanged += ChosenQuiz_SelectionChanged;
             chooseQuiz.SelectionChanged += (sender, e) =>
             {
 
@@ -381,11 +381,6 @@ namespace Labb_3_Main
 
             try
             {
-                for(int i = 0; i < originalQuizList.Count; i++)
-                {
-                    chooseQuiz.Items.Add(originalQuizList[i].Title);
-                }
-
                 for (int i = 0;i < quizList.Count; i++)
                 {
                     chooseQuiz.Items.Add(quizList[i].Title);
@@ -397,18 +392,10 @@ namespace Labb_3_Main
             }
         }
 
-        private void chosenQuiz_SelectionChanged(object sender, RoutedEventArgs e)
+        private void ChosenQuiz_SelectionChanged(object sender, RoutedEventArgs e)
         {
             ComboBox comboBox = sender as ComboBox;
             string data = comboBox.SelectedItem.ToString();
-
-            foreach(var q in originalQuizList)
-            {
-                if (q.Title == data)
-                {
-                    quizPlay = q;
-                }
-            }
 
             foreach (var q in quizList)
             {
@@ -455,7 +442,7 @@ namespace Labb_3_Main
                     Text = quizPlay._randomizedQuestions[currentQuestion].Statment,
                     Width = 1300,
                     Height = 200,
-                    FontSize = 50,
+                    FontSize = 40,
                     Margin = new Thickness(0, 0, 0, 300)
                 };
                 MainGrid.Children.Add(questionText);
@@ -579,7 +566,7 @@ namespace Labb_3_Main
             TextBlock textBlock = new TextBlock
             {
                 Text = "Concratulations, You've finished the quiz\n" +
-                $"You answered {progressBarIncrement * points}% of the questions right\n" +
+                $"You answered {Math.Round(progressBarIncrement * points,2)}% of the questions right\n" +
                 $"Scoring a total of {points} out of {quizPlay._randomizedQuestions.Count}.",
                 FontSize = 50,
                 
@@ -936,21 +923,6 @@ namespace Labb_3_Main
             AddQuestionToQuizButton.SetValue(Grid.RowSpanProperty, 2);
             AddQuestionToQuizButton.Click += AddQuestionToQuiz_Click;
 
-            Button DeleteQuestionFromQuizButton = new Button
-            {
-                Content = "Remove question",
-                Width = 150,
-                Height = 35,
-                FontSize = 17
-            };
-            MainGrid.Children.Add(DeleteQuestionFromQuizButton);
-            DeleteQuestionFromQuizButton.SetValue(Grid.RowProperty, 8);
-            DeleteQuestionFromQuizButton.SetValue(Grid.ColumnProperty, 6);
-            DeleteQuestionFromQuizButton.SetValue(Grid.RowSpanProperty, 2);
-            DeleteQuestionFromQuizButton.Click += DeleteQuestionFromQuiz_Click;
-            DeleteQuestionFromQuizButton.Margin = new Thickness(0, 0, 0, 50);
-
-
             Button backButton = new Button
             {
                 Content = "Back",
@@ -1007,11 +979,6 @@ namespace Labb_3_Main
 
             try
             {
-                for (int i = 0; i < originalQuestionsList.Count; i++)
-                {
-                    questionBox.Items.Add(originalQuestionsList[i].Statment);
-                }
-
                 for (int i = 0; i < questionList.Count; i++)
                 {
                     questionBox.Items.Add(questionList[i].Statment);
@@ -1024,11 +991,6 @@ namespace Labb_3_Main
 
             try
             {
-                for (int i = 0; i < originalQuizList.Count; i++)
-                {
-                    quizBox.Items.Add(originalQuizList[i].Title);
-                }
-
                 for (int i = 0; i < quizList.Count; i++)
                 {
                     quizBox.Items.Add(quizList[i].Title);
@@ -1041,31 +1003,10 @@ namespace Labb_3_Main
 
         }
 
-        private void DeleteQuestionFromQuiz_Click(object sender, RoutedEventArgs e)
-        {
-            for (int i = 0; i < quizList[selectedQuizBoxID]._questions.Count; i++)
-            {
-                if (quizList[selectedQuizBoxID]._questions[i] == selectedQuestionBox)
-                {
-                    quizList[selectedQuizBoxID].RemoveQuestion(i);
-                }
-            }  
-        } // DOes nothing / Delete?
-
         private void QuestionBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBox comboBox = sender as ComboBox;
             string selectedItem = comboBox.SelectedItem.ToString();
-
-            for (int i = 0; i < originalQuestionsList.Count; i++)
-            {
-                if (originalQuestionsList[i].Statment == selectedItem)
-                {
-                    selectedQuestionBox = originalQuestionsList[i];
-                    oldQuestionId = i;
-                    SettingsButton_Click(sender, e);
-                }
-            }
 
             for (int i = 0; i < questionList.Count; i++)
             {
@@ -1082,16 +1023,6 @@ namespace Labb_3_Main
         {
             ComboBox comboBox = sender as ComboBox;
             string selectedItem = comboBox.SelectedItem.ToString();
-
-            for (int i = 0; i < originalQuizList.Count; i++)
-            {
-                if (originalQuizList[i].Title == selectedItem)
-                {
-                    selectedQuizBox = originalQuizList[i];
-                    selectedQuizBoxID = i;
-                    SettingsButton_Click(sender, e);
-                }
-            }
 
             for (int i = 0; i < quizList.Count; i++)
             {
