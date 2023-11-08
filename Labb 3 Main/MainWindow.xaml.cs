@@ -91,141 +91,154 @@ namespace Labb_3_Main
             string[] questionFiles = Directory.GetFiles(questionPath, "*Question.json");
             string[] quizzesFiles = Directory.GetFiles(quizPath, "*Quiz.json");
 
-            string[] answers1 = new string[3];
-            string[] answers2 = new string[3];
-            string[] answers3 = new string[3];
-            string[] answers4 = new string[3];
-            string[] answers5 = new string[3];
-
-            if(questionFiles.Length == 0)
+            if(questionFiles.Length == 0) // if its your fist time opening the application it will add the set number of base questions and quizzes to json i chosen files
             {
+                string[] answers1 = new string[3];
+                string[] answers2 = new string[3];
+                string[] answers3 = new string[3];
+                string[] answers4 = new string[3];
+                string[] answers5 = new string[3];
+                string[] answers6 = new string[3];
+                string[] answers7 = new string[3];
+                string[] answers8 = new string[3];
+                string[] answers9 = new string[3];
+                string[] answers10 = new string[3];
+                string[] answers11 = new string[3];
+                string[] answers12 = new string[3];
+                string[] answers13 = new string[3];
+                string[] answers14 = new string[3];
+                string[] answers15 = new string[3];
+                string[] answers16 = new string[3];
+                string[] answers17 = new string[3];
+                string[] answers18 = new string[3];
+
                 //Creates Haloween themed questions
                 string statment = "Why did the skeleton go to the pary alone?";
                 answers1[0] = "Because he had no body to go with";
                 answers1[1] = "Because he had no backbone";
                 answers1[2] = "Because he was ugly, fat and nobody liked him";
                 Question question1 = new Question(statment, answers1, 0);
-                originalQuestionsList.Add(question1);
+                questionList.Add(question1);
 
                 statment = "Why dont mummies take vacation?";
                 answers2[0] = "They're afraid they'll relax and unwind.";
                 answers2[1] = "They cant fine their tomb passport.";
                 answers2[2] = "They're afrain they'll get wrapped up in the details";
                 Question question2 = new Question(statment, answers2, 0);
-                originalQuestionsList.Add(question2);
+                questionList.Add(question2);
 
                 statment = "What kind of monster loves to disco?";
                 answers3[0] = "The Boggie man.";
                 answers3[1] = "The pumpkin king.";
                 answers3[2] = " The ghostly grove.";
                 Question question3 = new Question(statment, answers3, 0);
-                originalQuestionsList.Add(question3);
+                questionList.Add(question3);
 
                 statment = "What do you call a witch who lives at the beach?";
                 answers4[0] = "A sandy witch.";
                 answers4[1] = "A sea witch.";
                 answers4[2] = "A beatch hag.";
                 Question question4 = new Question(statment, answers4, 0);
-                originalQuestionsList.Add(question4);
+                questionList.Add(question4);
 
                 statment = "What do you get if you cross a vampire with a snowman?";
                 answers5[0] = "Frostbite.";
                 answers5[1] = "Frosty the Fangman.";
                 answers5[2] = "Count Chocula";
                 Question question5 = new Question(statment, answers5, 0);
-                originalQuestionsList.Add(question5);
+                questionList.Add(question5);
 
                 statment = "Why was the skeleton so calm?";
-                answers5[0] = "Because nothing gets under its skin.";
-                answers5[1] = "FBecause it had a good body image.";
-                answers5[2] = "Because it had no guts no to be nervous";
-                Question question6 = new Question(statment, answers5, 0);
-                originalQuestionsList.Add(question6);
+                answers6[0] = "Because nothing gets under its skin.";
+                answers6[1] = "FBecause it had a good body image.";
+                answers6[2] = "Because it had no guts no to be nervous";
+                Question question6 = new Question(statment, answers6, 0);
+                questionList.Add(question6);
 
                 statment = "What's a vampires favorite fruit?";
-                answers5[0] = "Blood orange.";
-                answers5[1] = "Vampberry.";
-                answers5[2] = "Fangtastic fruit";
-                Question question7 = new Question(statment, answers5, 0);
-                originalQuestionsList.Add(question7);
+                answers7[0] = "Blood orange.";
+                answers7[1] = "Vampberry.";
+                answers7[2] = "Fangtastic fruit";
+                Question question7 = new Question(statment, answers7, 0);
+                questionList.Add(question7);
 
                 statment = "Why did the scarecrow win and award?";
-                answers5[0] = "Because it was outstanding in its field.";
-                answers5[1] = "Because it had a straw-some personality.";
-                answers5[2] = "Because it had a pumpkin for a head.";
-                Question question8 = new Question(statment, answers5, 0);
-                originalQuestionsList.Add(question8);
+                answers8[0] = "Because it was outstanding in its field.";
+                answers8[1] = "Because it had a straw-some personality.";
+                answers8[2] = "Because it had a pumpkin for a head.";
+                Question question8 = new Question(statment, answers8, 0);
+                questionList.Add(question8);
 
                 statment = "What do you get if you cross a mummy and a vampire?";
-                answers5[0] = "A coffin dodger.";
-                answers5[1] = "A very wrapped up vampire.";
-                answers5[2] = "A pain in the neck";
-                Question question9 = new Question(statment, answers5, 0);
-                originalQuestionsList.Add(question9);
+                answers9[0] = "A coffin dodger.";
+                answers9[1] = "A very wrapped up vampire.";
+                answers9[2] = "A pain in the neck";
+                Question question9 = new Question(statment, answers9, 0);
+                questionList.Add(question9);
 
                 statment = "Why did the ghost go to the party?";
-                answers5[0] = "To have a hauntingly good time.";
-                answers5[1] = "To find its boo.";
-                answers5[2] = "To scare up some fun.";
-                Question question10 = new Question(statment, answers5, 0);
-                originalQuestionsList.Add(question10);
+                answers10[0] = "To have a hauntingly good time.";
+                answers10[1] = "To find its boo.";
+                answers10[2] = "To scare up some fun.";
+                Question question10 = new Question(statment, answers10, 0);
+                questionList.Add(question10);
 
                 //Adds the chrismas themed questions
                 statment = "Why did the christmas tree go to the barber?";
-                answers5[0] = "It wanted a trim.";
-                answers5[1] = "It had to many needles.";
-                answers5[2] = "It needed a new hairstylefor the holidays.";
-                Question question11 = new Question(statment, answers5, 0);
-                originalQuestionsList.Add(question11);
+                answers11[0] = "It wanted a trim.";
+                answers11[1] = "It had to many needles.";
+                answers11[2] = "It needed a new hairstylefor the holidays.";
+                Question question11 = new Question(statment, answers11, 0);
+                questionList.Add(question11);
 
                 statment = "What do you get when you cross a snowman with a dog?";
-                answers5[0] = "Frosty paws.";
-                answers5[1] = "Frostbite.";
-                answers5[2] = "Snowy barks.";
-                Question question12 = new Question(statment, answers5, 0);
-                originalQuestionsList.Add(question12);
+                answers12[0] = "Frosty paws.";
+                answers12[1] = "Frostbite.";
+                answers12[2] = "Snowy barks.";
+                Question question12 = new Question(statment, answers12, 0);
+                questionList.Add(question12);
 
                 statment = "Why was the math book sad at christmas?";
-                answers5[0] = "Because it had to many problems.";
-                answers5[1] = "Because it was on the naughty list.";
-                answers5[2] = "Because it couldnt count on santa.";
-                Question question13 = new Question(statment, answers5, 0);
-                originalQuestionsList.Add(question13);
+                answers13[0] = "Because it had to many problems.";
+                answers13[1] = "Because it was on the naughty list.";
+                answers13[2] = "Because it couldnt count on santa.";
+                Question question13 = new Question(statment, answers13, 0);
+                questionList.Add(question13);
 
                 statment = "What do call a snowman with a sixpack?";
-                answers5[0] = "Snow Abs.";
-                answers5[1] = "Frost the Fit man.";
-                answers5[2] = "An abdominal snowman.";
-                Question question14 = new Question(statment, answers5, 0);
-                originalQuestionsList.Add(question14);
+                answers14[0] = "Snow Abs.";
+                answers14[1] = "Frost the Fit man.";
+                answers14[2] = "An abdominal snowman.";
+                Question question14 = new Question(statment, answers14, 0);
+                questionList.Add(question14);
 
                 statment = "Why was the Christmas tree so bad at knitting?";
-                answers5[0] = "Because it kept dropping its needles.";
-                answers5[1] = "Because it couldn't purl properly.";
-                answers5[2] = "Because it was always tangled up in its work.";
-                Question question15 = new Question(statment, answers5, 0);
-                originalQuestionsList.Add(question15);
+                answers15[0] = "Because it kept dropping its needles.";
+                answers15[1] = "Because it couldn't purl properly.";
+                answers15[2] = "Because it was always tangled up in its work.";
+                Question question15 = new Question(statment, answers15, 0);
+                questionList.Add(question15);
 
                 statment = "What did one ornament say to the other?";
-                answers5[0] = "You light up my life.";
-                answers5[1] = "You're a real ball.";
-                answers5[2] = "You're hanging around again.";
-                Question question16 = new Question(statment, answers5, 0);
-                originalQuestionsList.Add(question16);
+                answers16[0] = "You light up my life.";
+                answers16[1] = "You're a real ball.";
+                answers16[2] = "You're hanging around again.";
+                Question question16 = new Question(statment, answers16, 0);
+                questionList.Add(question16);
 
                 statment = "What do you call a snowman with a carrot nose, a scarf, and a top hat?";
-                answers5[0] = "Frosty.";
-                answers5[1] = "Well-dressed";
-                answers5[2] = "Stylish snowman";
-                Question question17 = new Question(statment, answers5, 0);
-                originalQuestionsList.Add(question17);
+                answers17[0] = "Frosty.";
+                answers17[1] = "Well-dressed";
+                answers17[2] = "Stylish snowman";
+                Question question17 = new Question(statment, answers17, 0);
+                questionList.Add(question17);
 
                 statment = "Why did the gingerbread man go to the doctor?";
-                answers5[0] = "Because he felt crumby.";
-                answers5[1] = "Because he had a sugar rush.";
-                answers5[2] = "Because he was running away from the frosting.";
-                Question question18 = new Question(statment, answers5, 0);
-                originalQuestionsList.Add(question18);
+                answers18[0] = "Because he felt crumby.";
+                answers18[1] = "Because he had a sugar rush.";
+                answers18[2] = "Because he was running away from the frosting.";
+                Question question18 = new Question(statment, answers18, 0);
+                questionList.Add(question18);
 
                 //Creates quiz, adds to the quizList and adds the questions to the quiz
                 Quiz quiz1 = new Quiz("Spooky quiz");
@@ -248,7 +261,9 @@ namespace Labb_3_Main
                 quiz2.AddQuestion(question16);
                 quiz2.AddQuestion(question17);
                 quiz2.AddQuestion(question18);
-                originalQuizList.Add(quiz1);
+
+                quizList.Add(quiz1);
+                quizList.Add(quiz2);
 
                 await Task.Run(async () =>
                 {
@@ -267,7 +282,10 @@ namespace Labb_3_Main
                     }
                 });
             }
-            
+
+            questionFiles = Directory.GetFiles(questionPath, "*Question.json");
+            quizzesFiles = Directory.GetFiles(quizPath, "*Quiz.json");
+
             //Question question = null;
             //Quiz quiz = null;
 
