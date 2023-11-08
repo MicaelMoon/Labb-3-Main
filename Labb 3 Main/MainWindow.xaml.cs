@@ -97,6 +97,8 @@ namespace Labb_3_Main
             string[] answers4 = new string[3];
             string[] answers5 = new string[3];
 
+
+            //Creates Haloween themed questions
             string statment = "Why did the skeleton go to the pary alone?";
             answers1[0] = "Because he had no body to go with";
             answers1[1] = "Because he had no backbone";
@@ -163,18 +165,79 @@ namespace Labb_3_Main
             statment = "Why did the ghost go to the party?";
             answers5[0] = "To have a hauntingly good time.";
             answers5[1] = "To find its boo.";
-            answers5[2] = "To scare up some fun,";
+            answers5[2] = "To scare up some fun.";
             Question question10 = new Question(statment, answers5, 0);
             originalQuestionsList.Add(question10);
 
+            //Adds the chrismas themed questions
+            statment = "Why did the christmas tree go to the barber?";
+            answers5[0] = "It wanted a trim.";
+            answers5[1] = "It had to many needles.";
+            answers5[2] = "It needed a new hairstylefor the holidays.";
+            Question question11 = new Question(statment, answers5, 0);
+            originalQuestionsList.Add(question11);
 
+            statment = "What do you get when you cross a snowman with a dog?";
+            answers5[0] = "Frosty paws.";
+            answers5[1] = "Frostbite.";
+            answers5[2] = "Snowy barks.";
+            Question question12 = new Question(statment, answers5, 0);
+            originalQuestionsList.Add(question12);
 
+            statment = "Why was the math book sad at christmas?";
+            answers5[0] = "Because it had to many problems.";
+            answers5[1] = "Because it was on the naughty list.";
+            answers5[2] = "Because it couldnt count on santa.";
+            Question question13 = new Question(statment, answers5, 0);
+            originalQuestionsList.Add(question13);
+
+            statment = "What do call a snowman with a sixpack?";
+            answers5[0] = "Snow Abs.";
+            answers5[1] = "Frost the Fit man.";
+            answers5[2] = "An abdominal snowman.";
+            Question question14 = new Question(statment, answers5, 0);
+            originalQuestionsList.Add(question14);
+
+            statment = "Why was the Christmas tree so bad at knitting?";
+            answers5[0] = "Because it kept dropping its needles.";
+            answers5[1] = "Because it couldn't purl properly.";
+            answers5[2] = "Because it was always tangled up in its work.";
+            Question question15 = new Question(statment, answers5, 0);
+            originalQuestionsList.Add(question15);
+
+            statment = "What did one ornament say to the other?";
+            answers5[0] = "You light up my life.";
+            answers5[1] = "You're a real ball.";
+            answers5[2] = "You're hanging around again.";
+            Question question16 = new Question(statment, answers5, 0);
+            originalQuestionsList.Add(question16);
+
+            statment = "What do you call a snowman with a carrot nose, a scarf, and a top hat?";
+            answers5[0] = "Frosty.";
+            answers5[1] = "Well-dressed";
+            answers5[2] = "Stylish snowman";
+            Question question17 = new Question(statment, answers5, 0);
+            originalQuestionsList.Add(question17);
+
+            statment = "Why did the gingerbread man go to the doctor?";
+            answers5[0] = "Because he felt crumby.";
+            answers5[1] = "Because he had a sugar rush.";
+            answers5[2] = "Because he was running away from the frosting.";
+            Question question18 = new Question(statment, answers5, 0);
+            originalQuestionsList.Add(question18);
+
+            //Creates quiz, adds to the quizList and adds the questions to the quiz
             Quiz quiz1 = new Quiz("Spooky quiz");
             quiz1.AddQuestion(question1);
             quiz1.AddQuestion(question2);
             quiz1.AddQuestion(question3);
             quiz1.AddQuestion(question4);
             quiz1.AddQuestion(question5);
+            quiz1.AddQuestion(question6);
+            quiz1.AddQuestion(question7);
+            quiz1.AddQuestion(question8);
+            quiz1.AddQuestion(question9);
+            quiz1.AddQuestion(question10);
             originalQuizList.Add(quiz1);
 
             //Question question = null;
